@@ -10,6 +10,7 @@ import torch.utils.data as data_utils
 from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import CosineAnnealingLR
 from Models.MobileNet.MobileNet4CIFAR100 import MobileNetV1
+from Models.MobileNetV2.MobileNetV2 import MobileNetV2
 import logging
 from datetime import datetime
 # from Models.MobileNet.MobileNet4ImageNet100 import MobileNetV1_4ImageNet100
@@ -48,13 +49,13 @@ def get_cifar100_loaders(batch_size,
 
     # 训练数据增强
     transform_train = transforms.Compose([
-        transforms.RandomResizedCrop(32, scale=(0.72, 1.0), ratio=(0.9, 1.1)),
-        # transforms.RandomCrop(32, padding=4),
+        # transforms.RandomResizedCrop(32, scale=(0.72, 1.0), ratio=(0.9, 1.1), padding=4),
+        transforms.RandomCrop(32, padding=4),
         transforms.RandomHorizontalFlip(),
         # transforms.RandomRotation(15),
         transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
         transforms.ToTensor(),
-        transforms.Normalize(CIFAR100_TRAIN_MEAN, CIFAR100_TRAIN_STD)
+        transforms.Normalize(CIFAR100_TRAIN_MEAN, CIFAR100_TRAIN_STD) 
     ])
 
     transform_test = transforms.Compose([
@@ -70,7 +71,7 @@ def get_cifar100_loaders(batch_size,
     test_dataset = torchvision.datasets.CIFAR100(root=str(data_path),
                                                 train=False,
                                                 download=True, transform=transform_test)
-    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=8, pin_memory=True)
+    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=8, pin_memory=True)
 
     return train_loader, test_loader
 
@@ -172,9 +173,9 @@ def main():
     # ============================================================= #
 
     # 创建保存目录（如果不存在）
-    save_dir = Path("Models/MobileNet/Pretrained")
+    save_dir = Path("Models/MobileNetV2/Pretrained")
     save_dir.mkdir(parents=True, exist_ok=True)
-    save_path = save_dir / "mobilenetv1_cifar100_best_11_23.pth"
+    save_path = save_dir / "mobilenetv2_cifar100_best_11_23.pth"
 
     # Data
     # 记录数据路径
@@ -184,7 +185,9 @@ def main():
                                                    data_path=data_path)
 
     # Model
-    model = MobileNetV1(num_classes=100, alpha=1.0).to(device)
+    # model = MobileNetV2(num_classes=100, width_mult=0.75).to(device)
+    model = MobileNetV2(num_classes=100, width_mult=1).to(device)
+    # 如果使用width_mult=1.0，则需要
     model = model.cuda()
 
     # Loss & Optimizer

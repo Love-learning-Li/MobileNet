@@ -1,0 +1,192 @@
+2025-11-23 21:58:34,649 - INFO - 日志保存到: logs\image100_training_20251123_215834.txt
+2025-11-23 21:58:36,241 - INFO - Using device: cuda
+2025-11-23 21:58:36,241 - INFO - 超参数 - Batch: 128, Epochs: 50, LR: 0.1, Warmup: 5
+2025-11-23 21:58:36,241 - INFO - 使用数据路径: G:/0_Python/Pytorch_learning/MobileNet/data/cifar-100-python
+2025-11-23 21:58:38,108 - INFO - 开始训练...
+2025-11-23 21:58:38,108 - INFO - ================================================================================
+2025-11-23 21:59:59,941 - INFO - Epoch [1/50] LR: 0.020080 | Train Loss: 4.6352, Train acc: 1.2600, Top-1: 1.26%, Top-5: 5.60% | 
+Test Loss: 4.5996,Test acc: 1.5300, Top-1: 1.53%, Top-5: 7.26% | 
+Epoch [1/50] , Test Once Delay: 26.2025s, Avarge Delay: 26.2025s | 
+2025-11-23 21:59:59,975 - INFO - ✅ New best Top-1 accuracy: 1.53% — model saved!
+2025-11-23 22:01:20,904 - INFO - Epoch [2/50] LR: 0.040060 | Train Loss: 4.1676, Train acc: 7.7860, Top-1: 7.79%, Top-5: 25.18% | 
+Test Loss: 3.8323,Test acc: 13.9100, Top-1: 13.91%, Top-5: 38.10% | 
+Epoch [2/50] , Test Once Delay: 26.0862s, Avarge Delay: 26.1443s | 
+2025-11-23 22:01:20,926 - INFO - ✅ New best Top-1 accuracy: 13.91% — model saved!
+2025-11-23 22:02:47,792 - INFO - Epoch [3/50] LR: 0.060040 | Train Loss: 3.8267, Train acc: 13.5960, Top-1: 13.60%, Top-5: 37.89% | 
+Test Loss: 3.6289,Test acc: 17.3600, Top-1: 17.36%, Top-5: 44.96% | 
+Epoch [3/50] , Test Once Delay: 30.6272s, Avarge Delay: 27.6386s | 
+2025-11-23 22:02:47,815 - INFO - ✅ New best Top-1 accuracy: 17.36% — model saved!
+2025-11-23 22:04:26,360 - INFO - Epoch [4/50] LR: 0.080020 | Train Loss: 3.6460, Train acc: 17.5580, Top-1: 17.56%, Top-5: 44.12% | 
+Test Loss: 3.5511,Test acc: 19.3800, Top-1: 19.38%, Top-5: 47.90% | 
+Epoch [4/50] , Test Once Delay: 33.2772s, Avarge Delay: 29.0483s | 
+2025-11-23 22:04:26,442 - INFO - ✅ New best Top-1 accuracy: 19.38% — model saved!
+2025-11-23 22:06:11,397 - INFO - Epoch [5/50] LR: 0.100000 | Train Loss: 3.4876, Train acc: 20.7560, Top-1: 20.76%, Top-5: 49.56% | 
+Test Loss: 3.3263,Test acc: 24.6100, Top-1: 24.61%, Top-5: 54.87% | 
+Epoch [5/50] , Test Once Delay: 33.2339s, Avarge Delay: 29.8854s | 
+2025-11-23 22:06:11,457 - INFO - ✅ New best Top-1 accuracy: 24.61% — model saved!
+2025-11-23 22:07:55,832 - INFO - Epoch [6/50] LR: 0.099878 | Train Loss: 3.3604, Train acc: 23.5640, Top-1: 23.56%, Top-5: 53.60% | 
+Test Loss: 3.2562,Test acc: 25.2800, Top-1: 25.28%, Top-5: 57.00% | 
+Epoch [6/50] , Test Once Delay: 32.9875s, Avarge Delay: 30.4024s | 
+2025-11-23 22:07:55,899 - INFO - ✅ New best Top-1 accuracy: 25.28% — model saved!
+2025-11-23 22:09:40,251 - INFO - Epoch [7/50] LR: 0.099513 | Train Loss: 3.2293, Train acc: 26.8140, Top-1: 26.81%, Top-5: 58.07% | 
+Test Loss: 3.1899,Test acc: 28.3500, Top-1: 28.35%, Top-5: 59.00% | 
+Epoch [7/50] , Test Once Delay: 33.2487s, Avarge Delay: 30.8090s | 
+2025-11-23 22:09:40,291 - INFO - ✅ New best Top-1 accuracy: 28.35% — model saved!
+2025-11-23 22:11:24,410 - INFO - Epoch [8/50] LR: 0.098907 | Train Loss: 3.1286, Train acc: 29.0600, Top-1: 29.06%, Top-5: 61.10% | 
+Test Loss: 3.2450,Test acc: 26.5300, Top-1: 26.53%, Top-5: 58.11% | 
+Epoch [8/50] , Test Once Delay: 33.1195s, Avarge Delay: 31.0978s | 
+2025-11-23 22:13:09,701 - INFO - Epoch [9/50] LR: 0.098063 | Train Loss: 3.0372, Train acc: 31.3380, Top-1: 31.34%, Top-5: 63.53% | 
+Test Loss: 3.0241,Test acc: 31.6000, Top-1: 31.60%, Top-5: 64.04% | 
+Epoch [9/50] , Test Once Delay: 32.9806s, Avarge Delay: 31.3070s | 
+2025-11-23 22:13:09,748 - INFO - ✅ New best Top-1 accuracy: 31.60% — model saved!
+2025-11-23 22:14:55,875 - INFO - Epoch [10/50] LR: 0.096985 | Train Loss: 2.9602, Train acc: 33.3320, Top-1: 33.33%, Top-5: 66.43% | 
+Test Loss: 2.8480,Test acc: 36.0600, Top-1: 36.06%, Top-5: 69.91% | 
+Epoch [10/50] , Test Once Delay: 33.3142s, Avarge Delay: 31.5077s | 
+2025-11-23 22:14:55,948 - INFO - ✅ New best Top-1 accuracy: 36.06% — model saved!
+2025-11-23 22:16:41,075 - INFO - Epoch [11/50] LR: 0.095677 | Train Loss: 2.8900, Train acc: 35.2780, Top-1: 35.28%, Top-5: 68.16% | 
+Test Loss: 3.1840,Test acc: 28.7600, Top-1: 28.76%, Top-5: 59.69% | 
+Epoch [11/50] , Test Once Delay: 33.1531s, Avarge Delay: 31.6573s | 
+2025-11-23 22:18:25,494 - INFO - Epoch [12/50] LR: 0.094147 | Train Loss: 2.8336, Train acc: 36.5400, Top-1: 36.54%, Top-5: 69.66% | 
+Test Loss: 2.9203,Test acc: 34.3600, Top-1: 34.36%, Top-5: 67.14% | 
+Epoch [12/50] , Test Once Delay: 32.6926s, Avarge Delay: 31.7436s | 
+2025-11-23 22:20:11,006 - INFO - Epoch [13/50] LR: 0.092402 | Train Loss: 2.7962, Train acc: 37.6060, Top-1: 37.61%, Top-5: 70.72% | 
+Test Loss: 2.8469,Test acc: 37.2000, Top-1: 37.20%, Top-5: 68.68% | 
+Epoch [13/50] , Test Once Delay: 33.1276s, Avarge Delay: 31.8501s | 
+2025-11-23 22:20:11,077 - INFO - ✅ New best Top-1 accuracy: 37.20% — model saved!
+2025-11-23 22:21:56,366 - INFO - Epoch [14/50] LR: 0.090451 | Train Loss: 2.7595, Train acc: 38.7600, Top-1: 38.76%, Top-5: 71.60% | 
+Test Loss: 2.9315,Test acc: 33.7100, Top-1: 33.71%, Top-5: 67.38% | 
+Epoch [14/50] , Test Once Delay: 33.1714s, Avarge Delay: 31.9444s | 
+2025-11-23 22:23:41,106 - INFO - Epoch [15/50] LR: 0.088302 | Train Loss: 2.7344, Train acc: 39.3860, Top-1: 39.39%, Top-5: 72.23% | 
+Test Loss: 2.9224,Test acc: 35.0900, Top-1: 35.09%, Top-5: 66.74% | 
+Epoch [15/50] , Test Once Delay: 33.3655s, Avarge Delay: 32.0392s | 
+2025-11-23 22:25:25,525 - INFO - Epoch [16/50] LR: 0.085967 | Train Loss: 2.7095, Train acc: 39.7960, Top-1: 39.80%, Top-5: 72.95% | 
+Test Loss: 2.7408,Test acc: 39.4700, Top-1: 39.47%, Top-5: 71.89% | 
+Epoch [16/50] , Test Once Delay: 33.3065s, Avarge Delay: 32.1184s | 
+2025-11-23 22:25:25,601 - INFO - ✅ New best Top-1 accuracy: 39.47% — model saved!
+2025-11-23 22:27:10,620 - INFO - Epoch [17/50] LR: 0.083457 | Train Loss: 2.6815, Train acc: 40.7200, Top-1: 40.72%, Top-5: 73.52% | 
+Test Loss: 2.6726,Test acc: 41.5200, Top-1: 41.52%, Top-5: 73.78% | 
+Epoch [17/50] , Test Once Delay: 33.1242s, Avarge Delay: 32.1775s | 
+2025-11-23 22:27:10,657 - INFO - ✅ New best Top-1 accuracy: 41.52% — model saved!
+2025-11-23 22:28:55,966 - INFO - Epoch [18/50] LR: 0.080783 | Train Loss: 2.6531, Train acc: 41.5960, Top-1: 41.60%, Top-5: 74.53% | 
+Test Loss: 2.7032,Test acc: 40.7700, Top-1: 40.77%, Top-5: 72.50% | 
+Epoch [18/50] , Test Once Delay: 33.1899s, Avarge Delay: 32.2338s | 
+2025-11-23 22:30:40,942 - INFO - Epoch [19/50] LR: 0.077960 | Train Loss: 2.6301, Train acc: 42.1780, Top-1: 42.18%, Top-5: 74.92% | 
+Test Loss: 2.7620,Test acc: 38.9200, Top-1: 38.92%, Top-5: 71.29% | 
+Epoch [19/50] , Test Once Delay: 32.9192s, Avarge Delay: 32.2699s | 
+2025-11-23 22:32:18,525 - INFO - Epoch [20/50] LR: 0.075000 | Train Loss: 2.6111, Train acc: 42.8300, Top-1: 42.83%, Top-5: 75.52% | 
+Test Loss: 2.6564,Test acc: 41.1800, Top-1: 41.18%, Top-5: 74.46% | 
+Epoch [20/50] , Test Once Delay: 31.7566s, Avarge Delay: 32.2442s | 
+2025-11-23 22:33:55,357 - INFO - Epoch [21/50] LR: 0.071919 | Train Loss: 2.5770, Train acc: 43.5560, Top-1: 43.56%, Top-5: 76.40% | 
+Test Loss: 2.6045,Test acc: 43.4000, Top-1: 43.40%, Top-5: 75.47% | 
+Epoch [21/50] , Test Once Delay: 31.3830s, Avarge Delay: 32.2032s | 
+2025-11-23 22:33:55,388 - INFO - ✅ New best Top-1 accuracy: 43.40% — model saved!
+2025-11-23 22:35:31,942 - INFO - Epoch [22/50] LR: 0.068730 | Train Loss: 2.5571, Train acc: 44.1440, Top-1: 44.14%, Top-5: 76.85% | 
+Test Loss: 2.7161,Test acc: 40.2100, Top-1: 40.21%, Top-5: 72.00% | 
+Epoch [22/50] , Test Once Delay: 31.3249s, Avarge Delay: 32.1633s | 
+2025-11-23 22:37:08,106 - INFO - Epoch [23/50] LR: 0.065451 | Train Loss: 2.5408, Train acc: 44.7640, Top-1: 44.76%, Top-5: 77.16% | 
+Test Loss: 2.6535,Test acc: 42.1800, Top-1: 42.18%, Top-5: 74.42% | 
+Epoch [23/50] , Test Once Delay: 31.4680s, Avarge Delay: 32.1330s | 
+2025-11-23 22:38:33,203 - INFO - Epoch [24/50] LR: 0.062096 | Train Loss: 2.5082, Train acc: 45.8320, Top-1: 45.83%, Top-5: 78.01% | 
+Test Loss: 2.5273,Test acc: 45.8000, Top-1: 45.80%, Top-5: 77.64% | 
+Epoch [24/50] , Test Once Delay: 27.1996s, Avarge Delay: 31.9275s | 
+2025-11-23 22:38:33,226 - INFO - ✅ New best Top-1 accuracy: 45.80% — model saved!
+2025-11-23 22:39:56,262 - INFO - Epoch [25/50] LR: 0.058682 | Train Loss: 2.4849, Train acc: 46.1940, Top-1: 46.19%, Top-5: 78.35% | 
+Test Loss: 2.4978,Test acc: 46.1600, Top-1: 46.16%, Top-5: 77.55% | 
+Epoch [25/50] , Test Once Delay: 26.9755s, Avarge Delay: 31.7294s | 
+2025-11-23 22:39:56,284 - INFO - ✅ New best Top-1 accuracy: 46.16% — model saved!
+2025-11-23 22:41:19,208 - INFO - Epoch [26/50] LR: 0.055226 | Train Loss: 2.4648, Train acc: 46.9720, Top-1: 46.97%, Top-5: 78.86% | 
+Test Loss: 2.4607,Test acc: 47.2500, Top-1: 47.25%, Top-5: 78.53% | 
+Epoch [26/50] , Test Once Delay: 27.1618s, Avarge Delay: 31.5537s | 
+2025-11-23 22:41:19,229 - INFO - ✅ New best Top-1 accuracy: 47.25% — model saved!
+2025-11-23 22:42:41,160 - INFO - Epoch [27/50] LR: 0.051745 | Train Loss: 2.4318, Train acc: 47.7860, Top-1: 47.79%, Top-5: 79.73% | 
+Test Loss: 2.5767,Test acc: 45.0900, Top-1: 45.09%, Top-5: 76.27% | 
+Epoch [27/50] , Test Once Delay: 26.5836s, Avarge Delay: 31.3696s | 
+2025-11-23 22:44:02,733 - INFO - Epoch [28/50] LR: 0.048255 | Train Loss: 2.4035, Train acc: 48.8300, Top-1: 48.83%, Top-5: 80.51% | 
+Test Loss: 2.4777,Test acc: 47.2000, Top-1: 47.20%, Top-5: 78.51% | 
+Epoch [28/50] , Test Once Delay: 26.4847s, Avarge Delay: 31.1952s | 
+2025-11-23 22:45:24,318 - INFO - Epoch [29/50] LR: 0.044774 | Train Loss: 2.3724, Train acc: 49.5860, Top-1: 49.59%, Top-5: 81.08% | 
+Test Loss: 2.5448,Test acc: 45.6900, Top-1: 45.69%, Top-5: 76.99% | 
+Epoch [29/50] , Test Once Delay: 26.3861s, Avarge Delay: 31.0293s | 
+2025-11-23 22:46:45,665 - INFO - Epoch [30/50] LR: 0.041318 | Train Loss: 2.3513, Train acc: 50.3520, Top-1: 50.35%, Top-5: 81.46% | 
+Test Loss: 2.3945,Test acc: 49.1800, Top-1: 49.18%, Top-5: 79.59% | 
+Epoch [30/50] , Test Once Delay: 26.3692s, Avarge Delay: 30.8740s | 
+2025-11-23 22:46:45,685 - INFO - ✅ New best Top-1 accuracy: 49.18% — model saved!
+2025-11-23 22:48:07,060 - INFO - Epoch [31/50] LR: 0.037904 | Train Loss: 2.3190, Train acc: 51.0920, Top-1: 51.09%, Top-5: 81.96% | 
+Test Loss: 2.3580,Test acc: 51.0400, Top-1: 51.04%, Top-5: 80.65% | 
+Epoch [31/50] , Test Once Delay: 26.3640s, Avarge Delay: 30.7285s | 
+2025-11-23 22:48:07,080 - INFO - ✅ New best Top-1 accuracy: 51.04% — model saved!
+2025-11-23 22:49:28,418 - INFO - Epoch [32/50] LR: 0.034549 | Train Loss: 2.2833, Train acc: 52.4860, Top-1: 52.49%, Top-5: 82.89% | 
+Test Loss: 2.3614,Test acc: 49.1600, Top-1: 49.16%, Top-5: 80.98% | 
+Epoch [32/50] , Test Once Delay: 26.3773s, Avarge Delay: 30.5925s | 
+2025-11-23 22:50:49,623 - INFO - Epoch [33/50] LR: 0.031270 | Train Loss: 2.2475, Train acc: 53.2980, Top-1: 53.30%, Top-5: 83.78% | 
+Test Loss: 2.3478,Test acc: 50.7300, Top-1: 50.73%, Top-5: 80.96% | 
+Epoch [33/50] , Test Once Delay: 26.4076s, Avarge Delay: 30.4657s | 
+2025-11-23 22:52:10,800 - INFO - Epoch [34/50] LR: 0.028081 | Train Loss: 2.2171, Train acc: 54.4800, Top-1: 54.48%, Top-5: 84.31% | 
+Test Loss: 2.2830,Test acc: 52.6800, Top-1: 52.68%, Top-5: 82.31% | 
+Epoch [34/50] , Test Once Delay: 26.2275s, Avarge Delay: 30.3411s | 
+2025-11-23 22:52:10,820 - INFO - ✅ New best Top-1 accuracy: 52.68% — model saved!
+2025-11-23 22:53:32,365 - INFO - Epoch [35/50] LR: 0.025000 | Train Loss: 2.1834, Train acc: 55.3520, Top-1: 55.35%, Top-5: 85.08% | 
+Test Loss: 2.2502,Test acc: 53.2600, Top-1: 53.26%, Top-5: 83.42% | 
+Epoch [35/50] , Test Once Delay: 26.4009s, Avarge Delay: 30.2285s | 
+2025-11-23 22:53:32,385 - INFO - ✅ New best Top-1 accuracy: 53.26% — model saved!
+2025-11-23 22:54:53,959 - INFO - Epoch [36/50] LR: 0.022040 | Train Loss: 2.1484, Train acc: 56.2920, Top-1: 56.29%, Top-5: 85.62% | 
+Test Loss: 2.2146,Test acc: 54.6700, Top-1: 54.67%, Top-5: 83.69% | 
+Epoch [36/50] , Test Once Delay: 26.4253s, Avarge Delay: 30.1229s | 
+2025-11-23 22:54:53,979 - INFO - ✅ New best Top-1 accuracy: 54.67% — model saved!
+2025-11-23 22:56:15,305 - INFO - Epoch [37/50] LR: 0.019217 | Train Loss: 2.1033, Train acc: 57.8100, Top-1: 57.81%, Top-5: 86.49% | 
+Test Loss: 2.1745,Test acc: 56.4400, Top-1: 56.44%, Top-5: 84.18% | 
+Epoch [37/50] , Test Once Delay: 26.3792s, Avarge Delay: 30.0217s | 
+2025-11-23 22:56:15,324 - INFO - ✅ New best Top-1 accuracy: 56.44% — model saved!
+2025-11-23 22:57:36,697 - INFO - Epoch [38/50] LR: 0.016543 | Train Loss: 2.0576, Train acc: 59.2460, Top-1: 59.25%, Top-5: 87.50% | 
+Test Loss: 2.1483,Test acc: 57.1900, Top-1: 57.19%, Top-5: 85.19% | 
+Epoch [38/50] , Test Once Delay: 26.4053s, Avarge Delay: 29.9265s | 
+2025-11-23 22:57:36,716 - INFO - ✅ New best Top-1 accuracy: 57.19% — model saved!
+2025-11-23 22:58:58,273 - INFO - Epoch [39/50] LR: 0.014033 | Train Loss: 2.0193, Train acc: 60.5780, Top-1: 60.58%, Top-5: 88.06% | 
+Test Loss: 2.1357,Test acc: 57.4900, Top-1: 57.49%, Top-5: 85.28% | 
+Epoch [39/50] , Test Once Delay: 26.5699s, Avarge Delay: 29.8404s | 
+2025-11-23 22:58:58,297 - INFO - ✅ New best Top-1 accuracy: 57.49% — model saved!
+2025-11-23 23:00:22,457 - INFO - Epoch [40/50] LR: 0.011698 | Train Loss: 1.9743, Train acc: 62.0080, Top-1: 62.01%, Top-5: 88.85% | 
+Test Loss: 2.1009,Test acc: 58.4800, Top-1: 58.48%, Top-5: 85.88% | 
+Epoch [40/50] , Test Once Delay: 26.8088s, Avarge Delay: 29.7646s | 
+2025-11-23 23:00:22,482 - INFO - ✅ New best Top-1 accuracy: 58.48% — model saved!
+2025-11-23 23:01:46,207 - INFO - Epoch [41/50] LR: 0.009549 | Train Loss: 1.9295, Train acc: 63.6180, Top-1: 63.62%, Top-5: 89.81% | 
+Test Loss: 2.0720,Test acc: 59.3600, Top-1: 59.36%, Top-5: 86.33% | 
+Epoch [41/50] , Test Once Delay: 26.5618s, Avarge Delay: 29.6865s | 
+2025-11-23 23:01:46,227 - INFO - ✅ New best Top-1 accuracy: 59.36% — model saved!
+2025-11-23 23:03:07,620 - INFO - Epoch [42/50] LR: 0.007598 | Train Loss: 1.8836, Train acc: 64.8220, Top-1: 64.82%, Top-5: 90.52% | 
+Test Loss: 2.0491,Test acc: 60.5100, Top-1: 60.51%, Top-5: 87.01% | 
+Epoch [42/50] , Test Once Delay: 26.2084s, Avarge Delay: 29.6037s | 
+2025-11-23 23:03:07,640 - INFO - ✅ New best Top-1 accuracy: 60.51% — model saved!
+2025-11-23 23:04:29,208 - INFO - Epoch [43/50] LR: 0.005853 | Train Loss: 1.8375, Train acc: 66.2400, Top-1: 66.24%, Top-5: 91.42% | 
+Test Loss: 1.9926,Test acc: 61.8500, Top-1: 61.85%, Top-5: 87.40% | 
+Epoch [43/50] , Test Once Delay: 26.2243s, Avarge Delay: 29.5251s | 
+2025-11-23 23:04:29,231 - INFO - ✅ New best Top-1 accuracy: 61.85% — model saved!
+2025-11-23 23:05:50,764 - INFO - Epoch [44/50] LR: 0.004323 | Train Loss: 1.7872, Train acc: 68.2540, Top-1: 68.25%, Top-5: 92.22% | 
+Test Loss: 1.9847,Test acc: 62.4100, Top-1: 62.41%, Top-5: 87.97% | 
+Epoch [44/50] , Test Once Delay: 26.1393s, Avarge Delay: 29.4482s | 
+2025-11-23 23:05:50,791 - INFO - ✅ New best Top-1 accuracy: 62.41% — model saved!
+2025-11-23 23:07:11,918 - INFO - Epoch [45/50] LR: 0.003015 | Train Loss: 1.7430, Train acc: 69.5340, Top-1: 69.53%, Top-5: 92.84% | 
+Test Loss: 1.9800,Test acc: 62.8600, Top-1: 62.86%, Top-5: 87.96% | 
+Epoch [45/50] , Test Once Delay: 26.2482s, Avarge Delay: 29.3771s | 
+2025-11-23 23:07:11,938 - INFO - ✅ New best Top-1 accuracy: 62.86% — model saved!
+2025-11-23 23:08:33,118 - INFO - Epoch [46/50] LR: 0.001937 | Train Loss: 1.7051, Train acc: 71.0680, Top-1: 71.07%, Top-5: 93.39% | 
+Test Loss: 1.9549,Test acc: 63.3700, Top-1: 63.37%, Top-5: 88.38% | 
+Epoch [46/50] , Test Once Delay: 26.2371s, Avarge Delay: 29.3088s | 
+2025-11-23 23:08:33,138 - INFO - ✅ New best Top-1 accuracy: 63.37% — model saved!
+2025-11-23 23:09:54,504 - INFO - Epoch [47/50] LR: 0.001093 | Train Loss: 1.6661, Train acc: 72.3160, Top-1: 72.32%, Top-5: 94.04% | 
+Test Loss: 1.9454,Test acc: 63.8400, Top-1: 63.84%, Top-5: 88.29% | 
+Epoch [47/50] , Test Once Delay: 26.2009s, Avarge Delay: 29.2427s | 
+2025-11-23 23:09:54,530 - INFO - ✅ New best Top-1 accuracy: 63.84% — model saved!
+2025-11-23 23:11:15,679 - INFO - Epoch [48/50] LR: 0.000487 | Train Loss: 1.6371, Train acc: 73.2460, Top-1: 73.25%, Top-5: 94.50% | 
+Test Loss: 1.9422,Test acc: 63.8800, Top-1: 63.88%, Top-5: 88.73% | 
+Epoch [48/50] , Test Once Delay: 26.2357s, Avarge Delay: 29.1800s | 
+2025-11-23 23:11:15,708 - INFO - ✅ New best Top-1 accuracy: 63.88% — model saved!
+2025-11-23 23:12:37,057 - INFO - Epoch [49/50] LR: 0.000122 | Train Loss: 1.6208, Train acc: 73.9900, Top-1: 73.99%, Top-5: 94.71% | 
+Test Loss: 1.9379,Test acc: 64.0300, Top-1: 64.03%, Top-5: 88.81% | 
+Epoch [49/50] , Test Once Delay: 26.2395s, Avarge Delay: 29.1200s | 
+2025-11-23 23:12:37,092 - INFO - ✅ New best Top-1 accuracy: 64.03% — model saved!
+2025-11-23 23:13:58,619 - INFO - Epoch [50/50] LR: 0.000000 | Train Loss: 1.6062, Train acc: 74.5260, Top-1: 74.53%, Top-5: 94.96% | 
+Test Loss: 1.9289,Test acc: 64.0600, Top-1: 64.06%, Top-5: 88.59% | 
+Epoch [50/50] , Test Once Delay: 26.4310s, Avarge Delay: 29.0662s | 
+2025-11-23 23:13:58,639 - INFO - ✅ New best Top-1 accuracy: 64.06% — model saved!
+2025-11-23 23:51:07,580 - INFO - ================================================================================

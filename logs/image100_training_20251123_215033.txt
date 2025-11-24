@@ -1,0 +1,26 @@
+2025-11-23 21:50:33,989 - INFO - 日志保存到: logs\image100_training_20251123_215033.txt
+2025-11-23 21:50:34,570 - INFO - Using device: cuda
+2025-11-23 21:50:34,571 - INFO - 超参数 - Batch: 128, Epochs: 50, LR: 0.1, Warmup: 5
+2025-11-23 21:50:34,571 - INFO - 使用数据路径: G:/0_Python/Pytorch_learning/MobileNet/data/cifar-100-python
+2025-11-23 21:50:36,456 - INFO - 开始训练...
+2025-11-23 21:50:36,457 - INFO - ================================================================================
+2025-11-23 21:51:40,963 - INFO - Epoch [1/50] LR: 0.020080 | Train Loss: 4.7536, Train acc: 1.0240, Top-1: 1.02%, Top-5: 5.20% | 
+Test Loss: 4.7120,Test acc: 1.2900, Top-1: 1.29%, Top-5: 5.95% | 
+Epoch [1/50] , Test Once Delay: 25.2996s, Avarge Delay: 25.2996s | 
+2025-11-23 21:51:40,996 - INFO - ✅ New best Top-1 accuracy: 1.29% — model saved!
+2025-11-23 21:52:46,130 - INFO - Epoch [2/50] LR: 0.040060 | Train Loss: 4.2825, Train acc: 5.7240, Top-1: 5.72%, Top-5: 21.05% | 
+Test Loss: 3.9899,Test acc: 9.9500, Top-1: 9.95%, Top-5: 32.32% | 
+Epoch [2/50] , Test Once Delay: 26.6466s, Avarge Delay: 25.9731s | 
+2025-11-23 21:52:46,150 - INFO - ✅ New best Top-1 accuracy: 9.95% — model saved!
+2025-11-23 21:53:52,913 - INFO - Epoch [3/50] LR: 0.060040 | Train Loss: 4.0247, Train acc: 9.5820, Top-1: 9.58%, Top-5: 30.18% | 
+Test Loss: 3.8757,Test acc: 13.0300, Top-1: 13.03%, Top-5: 36.82% | 
+Epoch [3/50] , Test Once Delay: 27.3338s, Avarge Delay: 26.4267s | 
+2025-11-23 21:53:52,935 - INFO - ✅ New best Top-1 accuracy: 13.03% — model saved!
+2025-11-23 21:55:00,832 - INFO - Epoch [4/50] LR: 0.080020 | Train Loss: 3.8945, Train acc: 12.1280, Top-1: 12.13%, Top-5: 35.40% | 
+Test Loss: 3.7463,Test acc: 14.8100, Top-1: 14.81%, Top-5: 40.70% | 
+Epoch [4/50] , Test Once Delay: 27.0225s, Avarge Delay: 26.5756s | 
+2025-11-23 21:55:00,850 - INFO - ✅ New best Top-1 accuracy: 14.81% — model saved!
+2025-11-23 21:56:06,895 - INFO - Epoch [5/50] LR: 0.100000 | Train Loss: 3.8047, Train acc: 13.9320, Top-1: 13.93%, Top-5: 38.68% | 
+Test Loss: 3.7855,Test acc: 15.1000, Top-1: 15.10%, Top-5: 39.55% | 
+Epoch [5/50] , Test Once Delay: 26.9910s, Avarge Delay: 26.6587s | 
+2025-11-23 21:56:06,920 - INFO - ✅ New best Top-1 accuracy: 15.10% — model saved!
