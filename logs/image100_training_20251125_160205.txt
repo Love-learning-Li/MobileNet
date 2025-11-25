@@ -1,0 +1,267 @@
+2025-11-25 16:02:05,076 - INFO - 日志保存到: logs\image100_training_20251125_160205.txt
+2025-11-25 16:02:05,646 - INFO - Using device: cuda
+2025-11-25 16:02:05,647 - INFO - 使用数据路径: G:/0_Python/Pytorch_learning/MobileNet/data/cifar-100-python
+2025-11-25 16:02:07,573 - INFO - 模型结构:
+MobileNetV3(
+  (conv1): Conv2d(3, 16, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act1): hard_swish()
+  (bneck): Sequential(
+    (0): InvertedResidualBlock(
+      (conv1): Conv2d(16, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): ReLU()
+      (conv2): Conv2d(16, 16, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=16, bias=False)
+      (bn2): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): ReLU()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(16, 4, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(4, 16, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(16, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): ReLU()
+      (skip): Sequential(
+        (0): Conv2d(16, 16, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=16, bias=False)
+        (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): InvertedResidualBlock(
+      (conv1): Conv2d(16, 72, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(72, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): ReLU()
+      (conv2): Conv2d(72, 72, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=72, bias=False)
+      (bn2): BatchNorm2d(72, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): ReLU()
+      (conv3): Conv2d(72, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): ReLU()
+      (skip): Sequential(
+        (0): Conv2d(16, 16, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=16, bias=False)
+        (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): Conv2d(16, 24, kernel_size=(1, 1), stride=(1, 1))
+        (3): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (2): InvertedResidualBlock(
+      (conv1): Conv2d(24, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): ReLU()
+      (conv2): Conv2d(88, 88, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=88, bias=False)
+      (bn2): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): ReLU()
+      (conv3): Conv2d(88, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): ReLU()
+    )
+    (3): InvertedResidualBlock(
+      (conv1): Conv2d(24, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): hard_swish()
+      (conv2): Conv2d(96, 96, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), groups=96, bias=False)
+      (bn2): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): hard_swish()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(96, 24, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(24, 96, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(96, 40, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(40, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): hard_swish()
+      (skip): Sequential(
+        (0): Conv2d(24, 24, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=24, bias=False)
+        (1): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): Conv2d(24, 40, kernel_size=(1, 1), stride=(1, 1))
+        (3): BatchNorm2d(40, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (4): InvertedResidualBlock(
+      (conv1): Conv2d(40, 240, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(240, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): hard_swish()
+      (conv2): Conv2d(240, 240, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=240, bias=False)
+      (bn2): BatchNorm2d(240, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): hard_swish()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(240, 60, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(60, 240, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(240, 40, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(40, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): hard_swish()
+    )
+    (5): InvertedResidualBlock(
+      (conv1): Conv2d(40, 240, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(240, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): hard_swish()
+      (conv2): Conv2d(240, 240, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=240, bias=False)
+      (bn2): BatchNorm2d(240, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): hard_swish()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(240, 60, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(60, 240, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(240, 40, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(40, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): hard_swish()
+    )
+    (6): InvertedResidualBlock(
+      (conv1): Conv2d(40, 120, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(120, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): hard_swish()
+      (conv2): Conv2d(120, 120, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=120, bias=False)
+      (bn2): BatchNorm2d(120, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): hard_swish()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(120, 30, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(30, 120, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(120, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): hard_swish()
+      (skip): Sequential(
+        (0): Conv2d(40, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (7): InvertedResidualBlock(
+      (conv1): Conv2d(48, 144, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): hard_swish()
+      (conv2): Conv2d(144, 144, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=144, bias=False)
+      (bn2): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): hard_swish()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(144, 36, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(36, 144, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(144, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): hard_swish()
+    )
+    (8): InvertedResidualBlock(
+      (conv1): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): hard_swish()
+      (conv2): Conv2d(288, 288, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), groups=288, bias=False)
+      (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): hard_swish()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(288, 72, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(72, 288, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(288, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): hard_swish()
+      (skip): Sequential(
+        (0): Conv2d(48, 48, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=48, bias=False)
+        (1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): Conv2d(48, 96, kernel_size=(1, 1), stride=(1, 1))
+        (3): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (9): InvertedResidualBlock(
+      (conv1): Conv2d(96, 576, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(576, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): hard_swish()
+      (conv2): Conv2d(576, 576, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=576, bias=False)
+      (bn2): BatchNorm2d(576, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): hard_swish()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(576, 144, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(144, 576, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(576, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): hard_swish()
+    )
+    (10): InvertedResidualBlock(
+      (conv1): Conv2d(96, 576, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(576, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): hard_swish()
+      (conv2): Conv2d(576, 576, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=576, bias=False)
+      (bn2): BatchNorm2d(576, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): hard_swish()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(576, 144, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(144, 576, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(576, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): hard_swish()
+    )
+  )
+  (conv2): Conv2d(96, 576, kernel_size=(1, 1), stride=(1, 1), bias=False)
+  (bn2): BatchNorm2d(576, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act2): hard_swish()
+  (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (linear3): Linear(in_features=576, out_features=1280, bias=False)
+  (bn3): BatchNorm1d(1280, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act3): hard_swish()
+  (dropout): Dropout(p=0.2, inplace=False)
+  (linear4): Linear(in_features=1280, out_features=100, bias=True)
+)
+2025-11-25 16:02:07,584 - INFO - 超参数设置:
+Batch Size: 128, Epochs: 50, Learning Rate: 0.1, Warmup Epochs: 5
+2025-11-25 16:02:07,585 - INFO - 开始训练...
+2025-11-25 16:02:07,585 - INFO - ================================================================================
+2025-11-25 16:03:33,139 - INFO - Epoch [1/50] LR: 0.020080 | Train Loss: 4.5955, Train acc: 1.2900, Top-1: 1.29%, Top-5: 6.12% | 
+Test Loss: 4.6079,Test acc: 1.2400, Top-1: 1.24%, Top-5: 6.36% | 
+Epoch [1/50] , Test Once Delay: 32.4606s, Avarge Delay: 32.4606s | 
+2025-11-25 16:03:33,217 - INFO - ✅ New best Top-1 accuracy: 1.24% — model saved!
+2025-11-25 16:05:13,358 - INFO - Epoch [2/50] LR: 0.040060 | Train Loss: 4.4670, Train acc: 2.7700, Top-1: 2.77%, Top-5: 11.81% | 
+Test Loss: 4.2667,Test acc: 4.7800, Top-1: 4.78%, Top-5: 19.08% | 
+Epoch [2/50] , Test Once Delay: 29.4085s, Avarge Delay: 30.9345s | 
+2025-11-25 16:05:13,395 - INFO - ✅ New best Top-1 accuracy: 4.78% — model saved!
+2025-11-25 16:06:23,909 - INFO - Epoch [3/50] LR: 0.060040 | Train Loss: 4.2545, Train acc: 5.1340, Top-1: 5.13%, Top-5: 20.24% | 
+Test Loss: 4.1588,Test acc: 6.8900, Top-1: 6.89%, Top-5: 24.88% | 
+Epoch [3/50] , Test Once Delay: 26.0054s, Avarge Delay: 29.2915s | 
+2025-11-25 16:06:23,957 - INFO - ✅ New best Top-1 accuracy: 6.89% — model saved!
+2025-11-25 16:07:32,545 - INFO - Epoch [4/50] LR: 0.080020 | Train Loss: 4.1894, Train acc: 6.2160, Top-1: 6.22%, Top-5: 23.01% | 
+Test Loss: 4.2912,Test acc: 5.0700, Top-1: 5.07%, Top-5: 19.98% | 
+Epoch [4/50] , Test Once Delay: 27.4517s, Avarge Delay: 28.8315s | 

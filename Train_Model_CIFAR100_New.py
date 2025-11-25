@@ -11,6 +11,7 @@ from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import CosineAnnealingLR
 from Models.MobileNet.MobileNet4CIFAR100 import MobileNetV1
 from Models.MobileNetV2.MobileNetV2 import MobileNetV2
+from Models.MobileNetV3.MobileNetV3 import MobileNetV3
 import logging
 from datetime import datetime
 # from Models.MobileNet.MobileNet4ImageNet100 import MobileNetV1_4ImageNet100
@@ -169,13 +170,12 @@ def main():
     epochs = 50
     lr = 0.1
     warmup_epochs = min(5, max(0, epochs - 1))
-    logger.info(f"超参数 - Batch: {batch_size}, Epochs: {epochs}, LR: {lr}, Warmup: {warmup_epochs}")
     # ============================================================= #
 
     # 创建保存目录（如果不存在）
-    save_dir = Path("Models/MobileNetV2/Pretrained")
+    save_dir = Path("Models/MobileNetV3/Pretrained")
     save_dir.mkdir(parents=True, exist_ok=True)
-    save_path = save_dir / "mobilenetv2_cifar100_best_11_23.pth"
+    save_path = save_dir / "mobilenetv3_cifar100_best_11_23.pth"
 
     # Data
     # 记录数据路径
@@ -186,9 +186,11 @@ def main():
 
     # Model
     # model = MobileNetV2(num_classes=100, width_mult=0.75).to(device)
-    model = MobileNetV2(num_classes=100, width_mult=1).to(device)
-    # 如果使用width_mult=1.0，则需要
+    model = MobileNetV3(num_classes=100).to(device)
     model = model.cuda()
+    
+    logger.info(f"模型结构:\n{model}")
+    logger.info(f"超参数设置:\nBatch Size: {batch_size}, Epochs: {epochs}, Learning Rate: {lr}, Warmup Epochs: {warmup_epochs}")
 
     # Loss & Optimizer
     criterion = nn.CrossEntropyLoss(label_smoothing=0.1)

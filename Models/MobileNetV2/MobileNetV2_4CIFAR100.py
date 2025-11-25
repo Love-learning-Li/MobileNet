@@ -37,9 +37,9 @@ class InvertedResidual(nn.Module):
             return self.conv(x)
 
 # 定义MobileNetV2网络
-class MobileNetV2(nn.Module):
+class MobileNetV2_4CIFAR100(nn.Module):
     def __init__(self, num_classes=1000, width_mult=1.0):
-        super(MobileNetV2, self).__init__()
+        super(MobileNetV2_4CIFAR100, self).__init__()
         # 设置每个阶段的倒置残差模块参数
         self.cfgs = [
             # t, c, n, s
