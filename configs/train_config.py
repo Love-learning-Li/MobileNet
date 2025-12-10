@@ -1,0 +1,81 @@
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any, Dict
+import copy
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
+
+@dataclass
+class DatasetConfig:
+    name: str
+    data_path: Path
+    batch_size: int = 128
+    num_workers: int = 8
+    pin_memory: bool = True
+
+
+@dataclass
+class OptimizerConfig:
+    lr: float
+    momentum: float
+    weight_decay: float
+    nesterov: bool = True
+
+
+@dataclass
+class SchedulerConfig:
+    warmup_epochs: int
+    start_factor: float = 1e-3
+
+
+@dataclass
+class TrainingConfig:
+    experiment_name: str
+    dataset: DatasetConfig
+    epochs: int
+    model_name: str
+    model_kwargs: Dict[str, Any] = field(default_factory=dict)
+    optimizer: OptimizerConfig = field(default_factory=lambda: OptimizerConfig(0.1, 0.9, 5e-4))
+    scheduler: SchedulerConfig = field(default_factory=lambda: SchedulerConfig(5))
+    label_smoothing: float = 0.1
+    log_dir: Path = PROJECT_ROOT / "logs"
+    weights_subdir: Path = Path("Models")
+
+    def weights_dir(self) -> Path:
+        return (PROJECT_ROOT / self.weights_subdir).resolve()
+
+
+CONFIG_REGISTRY: Dict[str, TrainingConfig] = {
+    "cifar100_mobilevit_xxs": TrainingConfig(
+        experiment_name="cifar100_mobilevit_xxs",
+        dataset=DatasetConfig(
+            name="cifar100",
+            data_path=PROJECT_ROOT / "data" / "cifar-100-python",
+            batch_size=128,
+            num_workers=8,
+            pin_memory=True,
+        ),
+        epochs=50,
+        model_name="mobilevit_xxs",
+        # model_kwargs={"num_classes": 100},
+        optimizer=OptimizerConfig(
+            lr=0.1,
+            momentum=0.9,
+            weight_decay=5e-4,
+            nesterov=True,
+        ),
+        scheduler=SchedulerConfig(warmup_epochs=5, start_factor=1e-3),
+        label_smoothing=0.1,
+        weights_subdir=Path("Models/MobileViT/Pretrained"),
+    )
+}
+
+
+def get_config(name: str = "cifar100_mobilevit_xxs") -> TrainingConfig:
+    if name not in CONFIG_REGISTRY:
+        available = ", ".join(CONFIG_REGISTRY)
+        raise ValueError(f"Unknown config '{name}'. Available: {available}")
+    return copy.deepcopy(CONFIG_REGISTRY[name])

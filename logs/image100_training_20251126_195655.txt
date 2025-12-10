@@ -1,0 +1,349 @@
+2025-11-26 19:56:55,953 - INFO - 日志保存到: logs\image100_training_20251126_195655.txt
+2025-11-26 19:56:56,595 - INFO - Using device: cuda
+2025-11-26 19:56:56,595 - INFO - 使用数据路径: G:/0_Python/Pytorch_learning/MobileNet/data/cifar-100-python
+2025-11-26 19:56:58,507 - INFO - 模型结构:
+MobileNetV3(
+  (conv1): Conv2d(3, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act1): hard_swish()
+  (bneck): Sequential(
+    (0): InvertedResidualBlock(
+      (conv1): Conv2d(16, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): ReLU()
+      (conv2): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=16, bias=False)
+      (bn2): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): ReLU()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(16, 4, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(4, 16, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(16, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): ReLU()
+    )
+    (1): InvertedResidualBlock(
+      (conv1): Conv2d(16, 72, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(72, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): ReLU()
+      (conv2): Conv2d(72, 72, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=72, bias=False)
+      (bn2): BatchNorm2d(72, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): ReLU()
+      (conv3): Conv2d(72, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): ReLU()
+      (skip): Sequential(
+        (0): Conv2d(16, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (2): InvertedResidualBlock(
+      (conv1): Conv2d(24, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): ReLU()
+      (conv2): Conv2d(88, 88, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=88, bias=False)
+      (bn2): BatchNorm2d(88, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): ReLU()
+      (conv3): Conv2d(88, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): ReLU()
+    )
+    (3): InvertedResidualBlock(
+      (conv1): Conv2d(24, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): hard_swish()
+      (conv2): Conv2d(96, 96, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), groups=96, bias=False)
+      (bn2): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): hard_swish()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(96, 24, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(24, 96, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(96, 40, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(40, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): hard_swish()
+      (skip): Sequential(
+        (0): Conv2d(24, 24, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=24, bias=False)
+        (1): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): Conv2d(24, 40, kernel_size=(1, 1), stride=(1, 1))
+        (3): BatchNorm2d(40, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (4): InvertedResidualBlock(
+      (conv1): Conv2d(40, 240, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(240, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): hard_swish()
+      (conv2): Conv2d(240, 240, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=240, bias=False)
+      (bn2): BatchNorm2d(240, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): hard_swish()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(240, 60, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(60, 240, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(240, 40, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(40, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): hard_swish()
+    )
+    (5): InvertedResidualBlock(
+      (conv1): Conv2d(40, 240, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(240, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): hard_swish()
+      (conv2): Conv2d(240, 240, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=240, bias=False)
+      (bn2): BatchNorm2d(240, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): hard_swish()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(240, 60, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(60, 240, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(240, 40, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(40, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): hard_swish()
+    )
+    (6): InvertedResidualBlock(
+      (conv1): Conv2d(40, 120, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(120, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): hard_swish()
+      (conv2): Conv2d(120, 120, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=120, bias=False)
+      (bn2): BatchNorm2d(120, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): hard_swish()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(120, 30, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(30, 120, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(120, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): hard_swish()
+      (skip): Sequential(
+        (0): Conv2d(40, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (7): InvertedResidualBlock(
+      (conv1): Conv2d(48, 144, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): hard_swish()
+      (conv2): Conv2d(144, 144, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=144, bias=False)
+      (bn2): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): hard_swish()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(144, 36, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(36, 144, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(144, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): hard_swish()
+    )
+    (8): InvertedResidualBlock(
+      (conv1): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): hard_swish()
+      (conv2): Conv2d(288, 288, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), groups=288, bias=False)
+      (bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): hard_swish()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(288, 72, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(72, 288, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(288, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): hard_swish()
+      (skip): Sequential(
+        (0): Conv2d(48, 48, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=48, bias=False)
+        (1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): Conv2d(48, 96, kernel_size=(1, 1), stride=(1, 1))
+        (3): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (9): InvertedResidualBlock(
+      (conv1): Conv2d(96, 576, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(576, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): hard_swish()
+      (conv2): Conv2d(576, 576, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=576, bias=False)
+      (bn2): BatchNorm2d(576, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): hard_swish()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(576, 144, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(144, 576, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(576, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): hard_swish()
+    )
+    (10): InvertedResidualBlock(
+      (conv1): Conv2d(96, 576, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(576, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation1): hard_swish()
+      (conv2): Conv2d(576, 576, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=576, bias=False)
+      (bn2): BatchNorm2d(576, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation2): hard_swish()
+      (se): SqueezeExcitation(
+        (se): Sequential(
+          (0): AdaptiveAvgPool2d(output_size=1)
+          (1): Conv2d(576, 144, kernel_size=(1, 1), stride=(1, 1))
+          (2): ReLU6(inplace=True)
+          (3): Conv2d(144, 576, kernel_size=(1, 1), stride=(1, 1))
+          (4): hard_sigmoid()
+        )
+      )
+      (conv3): Conv2d(576, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act3): hard_swish()
+    )
+  )
+  (conv2): Conv2d(96, 576, kernel_size=(1, 1), stride=(1, 1), bias=False)
+  (bn2): BatchNorm2d(576, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act2): hard_swish()
+  (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (linear3): Linear(in_features=576, out_features=1280, bias=False)
+  (bn3): BatchNorm1d(1280, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act3): hard_swish()
+  (dropout): Dropout(p=0.2, inplace=False)
+  (linear4): Linear(in_features=1280, out_features=100, bias=True)
+)
+2025-11-26 19:56:58,518 - INFO - 超参数设置:
+Batch Size: 128, Epochs: 50, Learning Rate: 0.1, Warmup Epochs: 5
+2025-11-26 19:56:58,519 - INFO - 开始训练...
+2025-11-26 19:56:58,519 - INFO - ================================================================================
+2025-11-26 19:59:49,280 - INFO - Epoch [1/50] LR: 0.020080 | Train Loss: 4.5796, Train acc: 1.4800, Top-1: 1.48%, Top-5: 7.37% | 
+Test Loss: 4.5610,Test acc: 1.6300, Top-1: 1.63%, Top-5: 8.51% | 
+Epoch [1/50] , Test Once Delay: 32.3246s, Avarge Delay: 32.3246s | 
+2025-11-26 19:59:49,310 - INFO - ✅ New best Top-1 accuracy: 1.63% — model saved!
+2025-11-26 20:02:34,720 - INFO - Epoch [2/50] LR: 0.040060 | Train Loss: 4.3166, Train acc: 5.0480, Top-1: 5.05%, Top-5: 18.52% | 
+Test Loss: 4.0660,Test acc: 9.0500, Top-1: 9.05%, Top-5: 29.52% | 
+Epoch [2/50] , Test Once Delay: 31.5855s, Avarge Delay: 31.9550s | 
+2025-11-26 20:02:34,741 - INFO - ✅ New best Top-1 accuracy: 9.05% — model saved!
+2025-11-26 20:05:20,649 - INFO - Epoch [3/50] LR: 0.060040 | Train Loss: 3.8991, Train acc: 11.9800, Top-1: 11.98%, Top-5: 35.00% | 
+Test Loss: 3.7106,Test acc: 15.9000, Top-1: 15.90%, Top-5: 42.91% | 
+Epoch [3/50] , Test Once Delay: 31.9029s, Avarge Delay: 31.9377s | 
+2025-11-26 20:05:20,669 - INFO - ✅ New best Top-1 accuracy: 15.90% — model saved!
+2025-11-26 20:08:06,610 - INFO - Epoch [4/50] LR: 0.080020 | Train Loss: 3.4842, Train acc: 20.4120, Top-1: 20.41%, Top-5: 49.70% | 
+Test Loss: 3.2268,Test acc: 27.2300, Top-1: 27.23%, Top-5: 57.93% | 
+Epoch [4/50] , Test Once Delay: 31.9614s, Avarge Delay: 31.9436s | 
+2025-11-26 20:08:06,633 - INFO - ✅ New best Top-1 accuracy: 27.23% — model saved!
+2025-11-26 20:10:52,159 - INFO - Epoch [5/50] LR: 0.100000 | Train Loss: 3.1330, Train acc: 28.9840, Top-1: 28.98%, Top-5: 60.97% | 
+Test Loss: 3.0045,Test acc: 32.6000, Top-1: 32.60%, Top-5: 64.21% | 
+Epoch [5/50] , Test Once Delay: 31.7851s, Avarge Delay: 31.9119s | 
+2025-11-26 20:10:52,181 - INFO - ✅ New best Top-1 accuracy: 32.60% — model saved!
+2025-11-26 20:13:37,723 - INFO - Epoch [6/50] LR: 0.099878 | Train Loss: 2.9467, Train acc: 34.1640, Top-1: 34.16%, Top-5: 66.37% | 
+Test Loss: 2.8770,Test acc: 36.1800, Top-1: 36.18%, Top-5: 68.38% | 
+Epoch [6/50] , Test Once Delay: 31.7931s, Avarge Delay: 31.8921s | 
+2025-11-26 20:13:37,749 - INFO - ✅ New best Top-1 accuracy: 36.18% — model saved!
+2025-11-26 20:16:23,046 - INFO - Epoch [7/50] LR: 0.099513 | Train Loss: 2.7598, Train acc: 39.1560, Top-1: 39.16%, Top-5: 71.63% | 
+Test Loss: 2.9121,Test acc: 35.3300, Top-1: 35.33%, Top-5: 68.15% | 
+Epoch [7/50] , Test Once Delay: 31.5574s, Avarge Delay: 31.8443s | 
+2025-11-26 20:19:08,618 - INFO - Epoch [8/50] LR: 0.098907 | Train Loss: 2.6600, Train acc: 41.9140, Top-1: 41.91%, Top-5: 74.48% | 
+Test Loss: 2.7585,Test acc: 40.1300, Top-1: 40.13%, Top-5: 71.89% | 
+Epoch [8/50] , Test Once Delay: 31.7986s, Avarge Delay: 31.8386s | 
+2025-11-26 20:19:08,646 - INFO - ✅ New best Top-1 accuracy: 40.13% — model saved!
+2025-11-26 20:21:54,379 - INFO - Epoch [9/50] LR: 0.098063 | Train Loss: 2.5896, Train acc: 44.0560, Top-1: 44.06%, Top-5: 76.25% | 
+Test Loss: 2.8513,Test acc: 38.0100, Top-1: 38.01%, Top-5: 69.32% | 
+Epoch [9/50] , Test Once Delay: 31.8000s, Avarge Delay: 31.8343s | 
+2025-11-26 20:24:39,964 - INFO - Epoch [10/50] LR: 0.096985 | Train Loss: 2.5416, Train acc: 45.6200, Top-1: 45.62%, Top-5: 77.22% | 
+Test Loss: 2.7219,Test acc: 41.5100, Top-1: 41.51%, Top-5: 73.63% | 
+Epoch [10/50] , Test Once Delay: 31.8440s, Avarge Delay: 31.8353s | 
+2025-11-26 20:24:39,986 - INFO - ✅ New best Top-1 accuracy: 41.51% — model saved!
+2025-11-26 20:27:25,684 - INFO - Epoch [11/50] LR: 0.095677 | Train Loss: 2.5016, Train acc: 46.6900, Top-1: 46.69%, Top-5: 78.17% | 
+Test Loss: 2.5490,Test acc: 45.7700, Top-1: 45.77%, Top-5: 77.02% | 
+Epoch [11/50] , Test Once Delay: 31.7881s, Avarge Delay: 31.8310s | 
+2025-11-26 20:27:25,711 - INFO - ✅ New best Top-1 accuracy: 45.77% — model saved!
+2025-11-26 20:30:11,229 - INFO - Epoch [12/50] LR: 0.094147 | Train Loss: 2.4670, Train acc: 47.9700, Top-1: 47.97%, Top-5: 78.78% | 
+Test Loss: 2.5851,Test acc: 44.7900, Top-1: 44.79%, Top-5: 76.00% | 
+Epoch [12/50] , Test Once Delay: 31.7409s, Avarge Delay: 31.8235s | 
+2025-11-26 20:32:56,833 - INFO - Epoch [13/50] LR: 0.092402 | Train Loss: 2.4369, Train acc: 48.8100, Top-1: 48.81%, Top-5: 79.63% | 
+Test Loss: 2.5604,Test acc: 45.8000, Top-1: 45.80%, Top-5: 76.28% | 
+Epoch [13/50] , Test Once Delay: 31.7899s, Avarge Delay: 31.8209s | 
+2025-11-26 20:32:56,855 - INFO - ✅ New best Top-1 accuracy: 45.80% — model saved!
+2025-11-26 20:35:42,896 - INFO - Epoch [14/50] LR: 0.090451 | Train Loss: 2.4000, Train acc: 50.0720, Top-1: 50.07%, Top-5: 80.37% | 
+Test Loss: 2.5499,Test acc: 46.3300, Top-1: 46.33%, Top-5: 76.61% | 
+Epoch [14/50] , Test Once Delay: 31.7451s, Avarge Delay: 31.8155s | 
+2025-11-26 20:35:42,917 - INFO - ✅ New best Top-1 accuracy: 46.33% — model saved!
+2025-11-26 20:38:28,692 - INFO - Epoch [15/50] LR: 0.088302 | Train Loss: 2.3823, Train acc: 50.2800, Top-1: 50.28%, Top-5: 80.52% | 
+Test Loss: 2.6513,Test acc: 44.1600, Top-1: 44.16%, Top-5: 74.70% | 
+Epoch [15/50] , Test Once Delay: 31.8139s, Avarge Delay: 31.8154s | 
+2025-11-26 20:41:14,255 - INFO - Epoch [16/50] LR: 0.085967 | Train Loss: 2.3471, Train acc: 51.3200, Top-1: 51.32%, Top-5: 81.48% | 
+Test Loss: 2.6538,Test acc: 43.5700, Top-1: 43.57%, Top-5: 73.90% | 
+Epoch [16/50] , Test Once Delay: 31.7906s, Avarge Delay: 31.8138s | 
+2025-11-26 20:43:59,804 - INFO - Epoch [17/50] LR: 0.083457 | Train Loss: 2.3185, Train acc: 52.1040, Top-1: 52.10%, Top-5: 82.22% | 
+Test Loss: 2.5187,Test acc: 47.1400, Top-1: 47.14%, Top-5: 77.13% | 
+Epoch [17/50] , Test Once Delay: 31.6258s, Avarge Delay: 31.8028s | 
+2025-11-26 20:43:59,827 - INFO - ✅ New best Top-1 accuracy: 47.14% — model saved!
+2025-11-26 20:46:45,341 - INFO - Epoch [18/50] LR: 0.080783 | Train Loss: 2.2928, Train acc: 53.0580, Top-1: 53.06%, Top-5: 82.55% | 
+Test Loss: 2.4144,Test acc: 49.9100, Top-1: 49.91%, Top-5: 79.97% | 
+Epoch [18/50] , Test Once Delay: 31.7908s, Avarge Delay: 31.8021s | 
+2025-11-26 20:46:45,366 - INFO - ✅ New best Top-1 accuracy: 49.91% — model saved!
+2025-11-26 20:49:30,896 - INFO - Epoch [19/50] LR: 0.077960 | Train Loss: 2.2623, Train acc: 53.8540, Top-1: 53.85%, Top-5: 83.08% | 
+Test Loss: 2.4806,Test acc: 48.5800, Top-1: 48.58%, Top-5: 77.94% | 
+Epoch [19/50] , Test Once Delay: 31.8139s, Avarge Delay: 31.8027s | 
+2025-11-26 20:52:16,418 - INFO - Epoch [20/50] LR: 0.075000 | Train Loss: 2.2393, Train acc: 54.7000, Top-1: 54.70%, Top-5: 83.54% | 
+Test Loss: 2.4442,Test acc: 49.6100, Top-1: 49.61%, Top-5: 78.45% | 
+Epoch [20/50] , Test Once Delay: 31.7322s, Avarge Delay: 31.7992s | 
+2025-11-26 20:55:02,170 - INFO - Epoch [21/50] LR: 0.071919 | Train Loss: 2.2091, Train acc: 55.6940, Top-1: 55.69%, Top-5: 84.30% | 
+Test Loss: 2.3718,Test acc: 50.6700, Top-1: 50.67%, Top-5: 80.36% | 
+Epoch [21/50] , Test Once Delay: 31.9372s, Avarge Delay: 31.8058s | 
+2025-11-26 20:55:02,195 - INFO - ✅ New best Top-1 accuracy: 50.67% — model saved!
+2025-11-26 20:57:47,973 - INFO - Epoch [22/50] LR: 0.068730 | Train Loss: 2.1887, Train acc: 55.9600, Top-1: 55.96%, Top-5: 84.51% | 
+Test Loss: 2.4441,Test acc: 49.2700, Top-1: 49.27%, Top-5: 79.45% | 
+Epoch [22/50] , Test Once Delay: 31.8030s, Avarge Delay: 31.8056s | 
+2025-11-26 21:00:33,651 - INFO - Epoch [23/50] LR: 0.065451 | Train Loss: 2.1620, Train acc: 57.0500, Top-1: 57.05%, Top-5: 85.19% | 
+Test Loss: 2.3243,Test acc: 52.6500, Top-1: 52.65%, Top-5: 81.50% | 
+Epoch [23/50] , Test Once Delay: 31.7371s, Avarge Delay: 31.8027s | 
+2025-11-26 21:00:33,671 - INFO - ✅ New best Top-1 accuracy: 52.65% — model saved!
+2025-11-26 21:03:19,307 - INFO - Epoch [24/50] LR: 0.062096 | Train Loss: 2.1278, Train acc: 58.1760, Top-1: 58.18%, Top-5: 85.79% | 
+Test Loss: 2.2901,Test acc: 53.8900, Top-1: 53.89%, Top-5: 81.83% | 
+Epoch [24/50] , Test Once Delay: 31.8670s, Avarge Delay: 31.8053s | 
+2025-11-26 21:03:19,328 - INFO - ✅ New best Top-1 accuracy: 53.89% — model saved!
+2025-11-26 21:06:05,389 - INFO - Epoch [25/50] LR: 0.058682 | Train Loss: 2.1096, Train acc: 58.6760, Top-1: 58.68%, Top-5: 86.22% | 
+Test Loss: 2.2665,Test acc: 54.8900, Top-1: 54.89%, Top-5: 82.28% | 
+Epoch [25/50] , Test Once Delay: 31.7768s, Avarge Delay: 31.8042s | 
+2025-11-26 21:06:05,411 - INFO - ✅ New best Top-1 accuracy: 54.89% — model saved!
+2025-11-26 21:08:51,105 - INFO - Epoch [26/50] LR: 0.055226 | Train Loss: 2.0764, Train acc: 59.6240, Top-1: 59.62%, Top-5: 86.70% | 
+Test Loss: 2.2355,Test acc: 55.1500, Top-1: 55.15%, Top-5: 83.32% | 
+Epoch [26/50] , Test Once Delay: 31.7561s, Avarge Delay: 31.8024s | 
+2025-11-26 21:08:51,125 - INFO - ✅ New best Top-1 accuracy: 55.15% — model saved!
+2025-11-26 21:11:36,705 - INFO - Epoch [27/50] LR: 0.051745 | Train Loss: 2.0492, Train acc: 60.4860, Top-1: 60.49%, Top-5: 87.30% | 
+Test Loss: 2.2282,Test acc: 55.1800, Top-1: 55.18%, Top-5: 83.58% | 
+Epoch [27/50] , Test Once Delay: 31.8063s, Avarge Delay: 31.8025s | 
+2025-11-26 21:11:36,724 - INFO - ✅ New best Top-1 accuracy: 55.18% — model saved!
+2025-11-26 21:14:22,967 - INFO - Epoch [28/50] LR: 0.048255 | Train Loss: 2.0228, Train acc: 61.6780, Top-1: 61.68%, Top-5: 87.77% | 
+Test Loss: 2.2817,Test acc: 54.3900, Top-1: 54.39%, Top-5: 82.21% | 
+Epoch [28/50] , Test Once Delay: 32.4242s, Avarge Delay: 31.8247s | 

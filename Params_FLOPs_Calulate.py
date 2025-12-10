@@ -3,13 +3,13 @@ from thop import profile
 
 # 假设你有一个定义好的 MobileNet 模型实例
 # from torchvision.models import mobilenet_v2
-from Models.MobileNetV3.MobileNetV3 import MobileNetV3
-from Models.MobileNetV2.MobileNetV2 import MobileNetV2
-from Models.MobileNetV2.MobileNetV2_4CIFAR100 import MobileNetV2_4CIFAR100
-from Models.MobileNet.MobileNet4CIFAR100 import MobileNetV1
+# from Models.MobileNetV3.MobileNetV3 import MobileNetV3
+# from Models.MobileNetV2.MobileNetV2 import MobileNetV2
+# from Models.MobileNetV2.MobileNetV2_4CIFAR100 import MobileNetV2_4CIFAR100
+# from Models.MobileNet.MobileNet4CIFAR100 import MobileNetV1
+from Models.MobileNetV3.MobileNetV3_Offical import mobilenetv3_small
 
-
-model = MobileNetV3()
+model = mobilenetv3_small(num_classes=100)
 input_tensor = torch.randn(1, 3, 224, 224)
 
 # 计算 MACs 和 Params

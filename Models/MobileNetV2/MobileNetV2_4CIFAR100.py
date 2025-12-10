@@ -19,7 +19,8 @@ class InvertedResidual(nn.Module):
             layers.append(nn.ReLU6(inplace=True))
         
         # 3x3深度可分离卷积
-        layers.append(nn.Conv2d(hidden_dim, hidden_dim, kernel_size=3, stride=stride, padding=1, groups=hidden_dim, bias=False))
+        layers.append(nn.Conv2d(hidden_dim, hidden_dim, kernel_size=3, stride=stride, padding=1,
+                                groups=hidden_dim, bias=False))
         layers.append(nn.BatchNorm2d(hidden_dim))
         layers.append(nn.ReLU6(inplace=True))
         

@@ -1,19 +1,21 @@
+import logging
+from datetime import datetime
+from pathlib import Path
+from typing import Callable, Tuple
+
 import matplotlib.pyplot as plt
 import torch
-import torchvision.datasets as datasets
 import torch.nn as nn
 import torchvision
 import torchvision.transforms as transforms
-from pathlib import Path
-from torchvision.transforms import autoaugment
-import torch.utils.data as data_utils
 from torch.utils.data import DataLoader
-from torch.optim.lr_scheduler import CosineAnnealingLR
-from Models.MobileNet.MobileNet4CIFAR100 import MobileNetV1
-from Models.MobileNetV2.MobileNetV2 import MobileNetV2
-from Models.MobileNetV3.MobileNetV3 import MobileNetV3
-import logging
-from datetime import datetime
+
+from Models.MobileViT.MobileViT import mobilevit_s, mobilevit_xs, mobilevit_xxs
+from configs.train_config import TrainingConfig, get_config
+# from Models.MobileNet.MobileNet4CIFAR100 import MobileNetV1
+# from Models.MobileNetV2.MobileNetV2 import MobileNetV2
+# from Models.MobileNetV3.MobileNetV3 import MobileNetV3
+# from Models.MobileNetV4.MobileNetV4 import MobileNetV4
 # from Models.MobileNet.MobileNet4ImageNet100 import MobileNetV1_4ImageNet100
 import time
 
@@ -41,8 +43,12 @@ def setup_logger(log_dir="logs"):
 # ----------------------------
 # 1. CIAFR-100数据集加载
 # ----------------------------
-def get_cifar100_loaders(batch_size, 
-                         data_path="G:/0_Python/Pytorch_learning/MobileNet/data/cifar-10-batches-py"):
+def get_cifar100_loaders(
+    batch_size,
+    data_path="G:/0_Python/Pytorch_learning/MobileNet/data/cifar-10-batches-py",
+    num_workers=8,
+    pin_memory=True,
+):
 
     data_path = Path(data_path)
     CIFAR100_TRAIN_MEAN = (0.507075, 0.486548, 0.440917)
@@ -67,12 +73,24 @@ def get_cifar100_loaders(batch_size,
     train_dataset = torchvision.datasets.CIFAR100(root=str(data_path),
                                                   train=True,
                                                   download=True, transform=transform_train)
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=8, pin_memory=True)
+    train_loader = DataLoader(
+        train_dataset,
+        batch_size=batch_size,
+        shuffle=True,
+        num_workers=num_workers,
+        pin_memory=pin_memory,
+    )
 
     test_dataset = torchvision.datasets.CIFAR100(root=str(data_path),
                                                 train=False,
                                                 download=True, transform=transform_test)
-    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=8, pin_memory=True)
+    test_loader = DataLoader(
+        test_dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers=num_workers,
+        pin_memory=pin_memory,
+    )
 
     return train_loader, test_loader
 
@@ -96,7 +114,7 @@ def compute_topk(outputs, targets, topk=(1, 5)):
     return res
 
 
-def train_epoch(model, loader, criterion, optimizer, scheduler, device):
+def train_epoch(model, loader, criterion, optimizer, device):
     model.train()
     total_loss = 0
     correct = 0
@@ -157,51 +175,95 @@ def evaluate(model, loader, criterion, device):
     )
 
 # ----------------------------
+# Builder helpers
+# ----------------------------
+DATASET_BUILDERS: dict[str, Callable[..., Tuple[DataLoader, DataLoader]]] = {
+    "cifar100": get_cifar100_loaders,
+}
+
+
+MODEL_FACTORY: dict[str, Callable[..., nn.Module]] = {
+    "mobilevit_xxs": mobilevit_xxs,
+    "mobilevit_xs": mobilevit_xs,
+    "mobilevit_s": mobilevit_s,
+}
+
+
+def build_dataloaders(cfg: TrainingConfig) -> Tuple[DataLoader, DataLoader]:
+    if cfg.dataset.name not in DATASET_BUILDERS:
+        available = ", ".join(DATASET_BUILDERS)
+        raise ValueError(f"Dataset '{cfg.dataset.name}' is not supported. Available: {available}")
+    builder = DATASET_BUILDERS[cfg.dataset.name]
+    return builder(
+        batch_size=cfg.dataset.batch_size,
+        data_path=cfg.dataset.data_path,
+        num_workers=cfg.dataset.num_workers,
+        pin_memory=cfg.dataset.pin_memory,
+    )
+
+
+def build_model(cfg: TrainingConfig) -> nn.Module:
+    if cfg.model_name not in MODEL_FACTORY:
+        available = ", ".join(MODEL_FACTORY)
+        raise ValueError(f"Model '{cfg.model_name}' is not supported. Available: {available}")
+    factory = MODEL_FACTORY[cfg.model_name]
+    try:
+        return factory(**cfg.model_kwargs)
+    except TypeError:
+        if cfg.model_kwargs:
+            raise
+        return factory()
+
+
+# ----------------------------
 # 3. Main Training Loop
 # ----------------------------
 def main():
-    logger = setup_logger()
+    cfg = get_config()
+    logger = setup_logger(log_dir=cfg.log_dir)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     logger.info(f"Using device: {device}")
+    logger.info(f"Loaded config: {cfg.experiment_name}")
 
     # ============================================================= #
     # Hyperparameters
-    batch_size = 128
-    epochs = 50
-    lr = 0.1
-    warmup_epochs = min(5, max(0, epochs - 1))
+    batch_size = cfg.dataset.batch_size
+    epochs = cfg.epochs
+    lr = cfg.optimizer.lr
+    warmup_epochs = min(cfg.scheduler.warmup_epochs, max(0, epochs - 1))
     # ============================================================= #
 
-    # 创建保存目录（如果不存在）
-    save_dir = Path("Models/MobileNetV3/Pretrained")
+    # 创建保存目录（由配置提供）
+    save_dir = cfg.weights_dir()
     save_dir.mkdir(parents=True, exist_ok=True)
-    save_path = save_dir / "mobilenetv3_cifar100_best_11_23.pth"
+
+    # 根据实验名生成权重文件名
+    timestamp = datetime.now().strftime("%m_%d_%H%M%S")
+    save_path = save_dir / f"{cfg.experiment_name}_{timestamp}.pth"
 
     # Data
     # 记录数据路径
-    data_path = "G:/0_Python/Pytorch_learning/MobileNet/data/cifar-100-python"
-    logger.info(f"使用数据路径: {data_path}")
-    trainloader, testloader = get_cifar100_loaders(batch_size,
-                                                   data_path=data_path)
+    logger.info(f"使用数据路径: {cfg.dataset.data_path}")
+    trainloader, testloader = build_dataloaders(cfg)
 
-    # Model
     # model = MobileNetV2(num_classes=100, width_mult=0.75).to(device)
-    model = MobileNetV3(num_classes=100).to(device)
-    model = model.cuda()
+    # model = MobileNetV3(num_classes=100).to(device)
+    # model = MobileNetV4(num_classes=100).to(device).to(device)
+    model = build_model(cfg).to(device)
     
     logger.info(f"模型结构:\n{model}")
     logger.info(f"超参数设置:\nBatch Size: {batch_size}, Epochs: {epochs}, Learning Rate: {lr}, Warmup Epochs: {warmup_epochs}")
 
-    # Loss & Optimizer
-    criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
+    # Loss & Optimizer 
+    criterion = nn.CrossEntropyLoss(label_smoothing=cfg.label_smoothing)
     
     # 定义优化器 
     optimizer = torch.optim.SGD(
         model.parameters(), 
         lr=lr, 
-        momentum=0.9, 
-        weight_decay=5e-4,
-        nesterov=True
+        momentum=cfg.optimizer.momentum, 
+        weight_decay=cfg.optimizer.weight_decay,
+        nesterov=cfg.optimizer.nesterov
     )
 
     # warmup学习率调度器
@@ -210,7 +272,7 @@ def main():
             schedulers=[
                 torch.optim.lr_scheduler.LinearLR(
                     optimizer,
-                    start_factor=1e-3,
+                    start_factor=cfg.scheduler.start_factor,
                     total_iters=warmup_epochs
                 ),
                 torch.optim.lr_scheduler.CosineAnnealingLR(
@@ -236,7 +298,7 @@ def main():
     train_acc_list = []
     test_acc_list = []
     for epoch in range(epochs):
-        train_loss, train_acc, train_top1, train_top5 = train_epoch(model, trainloader, criterion, optimizer, scheduler, device)
+        train_loss, train_acc, train_top1, train_top5 = train_epoch(model, trainloader, criterion, optimizer, device)
         test_loss, test_acc, test_top1, test_top5, once_delay_time = evaluate(model, testloader, criterion, device)
         all_delay_time += once_delay_time
         avarge_delay_time = all_delay_time / (epoch + 1)

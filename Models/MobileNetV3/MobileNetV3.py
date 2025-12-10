@@ -114,25 +114,30 @@ class MobileNetV3(nn.Module):
     # def __init__(self, num_classes=100, act=nn.Hardswish)
     def __init__(self, num_classes=100, act=hard_swish):
         super(MobileNetV3, self).__init__()
-        self.conv1 = nn.Conv2d(3, 16, kernel_size=3, stride=2, padding=1, bias=False)
+        # CIFAR-100: stride=1, padding=1 (32x32 -> 32x32)
+        self.conv1 = nn.Conv2d(3, 16, kernel_size=3, stride=1, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(16)
         self.act1 = act()
 
+        # MobileNetV3-Large结构
         self.bneck = nn.Sequential(
             # Inverted Residual Block settings:
-            # (kernel_size, in_size, expand_ratio, out_size, stride, use_se, activation):
-            InvertedResidualBlock(3, 16, 16, 16, 2, True, nn.ReLU),
-            InvertedResidualBlock(3, 16, 72, 24, 2, False, nn.ReLU),
+            # (kernel_size, in_size, expand_size, out_size, stride, use_se, activation):
+            # CIFAR-100: 保持前几层的高分辨率
+            InvertedResidualBlock(3, 16, 16, 16, 1, True, nn.ReLU),      # stride 2 -> 1
+            InvertedResidualBlock(3, 16, 72, 24, 1, False, nn.ReLU),     # stride 2 -> 1
             InvertedResidualBlock(3, 24, 88, 24, 1, False, nn.ReLU),
-            InvertedResidualBlock(5, 24, 96, 40, 2, True, act),
+            InvertedResidualBlock(5, 24, 96, 40, 2, True, act),          # 第一次下采样 32 -> 16
             InvertedResidualBlock(5, 40, 240, 40, 1, True, act),
             InvertedResidualBlock(5, 40, 240, 40, 1, True, act),
             InvertedResidualBlock(5, 40, 120, 48, 1, True, act),
             InvertedResidualBlock(5, 48, 144, 48, 1, True, act),
-            InvertedResidualBlock(5, 48, 288, 96, 2, True, act),
+            InvertedResidualBlock(5, 48, 288, 96, 2, True, act),         # 第二次下采样 16 -> 8
             InvertedResidualBlock(5, 96, 576, 96, 1, True, act),
             InvertedResidualBlock(5, 96, 576, 96, 1, True, act),
         )
+
+        # MobileNetV3-Small网络结构
         
         self.conv2 = nn.Conv2d(96, 576, kernel_size=1, bias=False)
         self.bn2 = nn.BatchNorm2d(576)

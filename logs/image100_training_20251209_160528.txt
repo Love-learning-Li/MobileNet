@@ -1,0 +1,4 @@
+2025-12-09 16:05:28,957 - INFO - 日志保存到: G:\0_Python\Pytorch_learning\MobileNet\logs\image100_training_20251209_160528.txt
+2025-12-09 16:05:30,556 - INFO - Using device: cuda
+2025-12-09 16:05:30,556 - INFO - Loaded config: cifar100_mobilevit_xxs
+2025-12-09 16:05:30,557 - INFO - 使用数据路径: G:\0_Python\Pytorch_learning\MobileNet\data\cifar-100-python
