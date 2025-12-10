@@ -6,13 +6,10 @@ from typing import Callable, Tuple
 import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
-import torchvision
-import torchvision.transforms as transforms
+import time
 from torch.utils.data import DataLoader
 
-from Models.MobileViT.MobileViT import mobilevit_s, mobilevit_xs, mobilevit_xxs
-from configs.train_config import TrainingConfig, get_config
-import time
+from configs.train_config import TrainingConfig, get_config, MODEL_REGISTRY, DATASET_REGISTRY
 
 # ----------------------------
 # 0. 配置日志
@@ -34,66 +31,6 @@ def setup_logger(log_dir="logs"):
     logger = logging.getLogger(__name__)
     logger.info(f"日志保存到: {log_file}")
     return logger
-
-# ----------------------------
-# 1. CIAFR-100数据集加载
-# ----------------------------
-def get_cifar100_loaders(
-    batch_size,
-    data_path="/root/LightWeightNN/MobileNet/data",
-    num_workers=18,
-    pin_memory=True,
-    image_size=32,
-):
-
-    data_path = Path(data_path)
-    CIFAR100_TRAIN_MEAN = (0.507075, 0.486548, 0.440917)
-    CIFAR100_TRAIN_STD  = (0.267334, 0.256438, 0.276150)
-
-    # 训练数据增强
-    transform_train = transforms.Compose([
-        transforms.RandomResizedCrop(image_size, scale=(0.8, 1.0), ratio=(0.9, 1.1)),
-        transforms.RandomHorizontalFlip(),
-        transforms.AutoAugment(transforms.AutoAugmentPolicy.CIFAR10),
-        transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
-        transforms.ToTensor(),
-        transforms.Normalize(CIFAR100_TRAIN_MEAN, CIFAR100_TRAIN_STD),
-        transforms.RandomErasing(p=0.25)
-    ])
-
-    transform_test = transforms.Compose([
-        transforms.Resize(image_size),
-        transforms.ToTensor(),
-        transforms.Normalize(CIFAR100_TRAIN_MEAN, CIFAR100_TRAIN_STD),
-    ])
-
-    train_dataset = torchvision.datasets.CIFAR100(
-        root=str(data_path),
-        train=True,
-        download=False,
-        transform=transform_train,
-    )
-    train_loader = DataLoader(
-        train_dataset,
-        batch_size=batch_size,
-        shuffle=True,
-        num_workers=num_workers,
-        pin_memory=pin_memory,
-    )
-
-    test_dataset = torchvision.datasets.CIFAR100(root=str(data_path),
-                                                train=False,
-                                                download=True, transform=transform_test)
-    test_loader = DataLoader(
-        test_dataset,
-        batch_size=batch_size,
-        shuffle=False,
-        num_workers=num_workers,
-        pin_memory=pin_memory,
-    )
-
-    return train_loader, test_loader
-
 
 # ----------------------------
 # 2. Training & Evaluation
@@ -174,23 +111,11 @@ def evaluate(model, loader, criterion, device):
 # ----------------------------
 # Builder helpers
 # ----------------------------
-DATASET_BUILDERS: dict[str, Callable[..., Tuple[DataLoader, DataLoader]]] = {
-    "cifar100": get_cifar100_loaders,
-}
-
-
-MODEL_FACTORY: dict[str, Callable[..., nn.Module]] = {
-    "mobilevit_xxs": mobilevit_xxs,
-    "mobilevit_xs": mobilevit_xs,
-    "mobilevit_s": mobilevit_s,
-}
-
-
 def build_dataloaders(cfg: TrainingConfig) -> Tuple[DataLoader, DataLoader]:
-    if cfg.dataset.name not in DATASET_BUILDERS:
-        available = ", ".join(DATASET_BUILDERS)
+    if cfg.dataset.name not in DATASET_REGISTRY:
+        available = ", ".join(DATASET_REGISTRY)
         raise ValueError(f"Dataset '{cfg.dataset.name}' is not supported. Available: {available}")
-    builder = DATASET_BUILDERS[cfg.dataset.name]
+    builder = DATASET_REGISTRY[cfg.dataset.name]
     return builder(
         batch_size=cfg.dataset.batch_size,
         data_path=cfg.dataset.data_path,
@@ -201,16 +126,17 @@ def build_dataloaders(cfg: TrainingConfig) -> Tuple[DataLoader, DataLoader]:
 
 
 def build_model(cfg: TrainingConfig) -> nn.Module:
-    if cfg.model_name not in MODEL_FACTORY:
-        available = ", ".join(MODEL_FACTORY)
+    if cfg.model_name not in MODEL_REGISTRY:
+        available = ", ".join(MODEL_REGISTRY)
         raise ValueError(f"Model '{cfg.model_name}' is not supported. Available: {available}")
-    factory = MODEL_FACTORY[cfg.model_name]
-    try:
-        return factory(image_size=cfg.dataset.image_size, **cfg.model_kwargs)
-    except TypeError:
-        if cfg.model_kwargs:
-            raise
-        return factory(image_size=cfg.dataset.image_size)
+    factory = MODEL_REGISTRY[cfg.model_name]
+        return factory()
+    # try:
+    #     return factory(image_size=cfg.dataset.image_size, **cfg.model_kwargs)
+    # except TypeError:
+    #     if cfg.model_kwargs:
+    #         raise
+    #     return factory(image_size=cfg.dataset.image_size)
 
 
 # ----------------------------
@@ -292,11 +218,11 @@ def main():
 
     # Training
     best_top1k = 0.0
-    avarge_delay_time = 0.0
-    fast_delay_time = 999.9
-    slow_delay_time = 0.0
-    once_delay_time = 0.0
-    all_delay_time = 0.0
+    # avarge_delay_time = 0.0
+    # fast_delay_time = 999.9
+    # slow_delay_time = 0.0
+    # once_delay_time = 0.0
+    # all_delay_time = 0.0
     train_acc_list = []
     test_acc_list = []
     total_train_time = 0.0
@@ -322,10 +248,10 @@ def main():
         logger.info(f"Epoch [{epoch + 1}/{epochs}] LR: {current_lr:.6f} | "
                    f"Train Loss: {train_loss:.4f}, Train acc: {train_acc:.4f}, Top-1: {train_top1:.2f}%, Top-5: {train_top5:.2f}% | \n"
                    f"Test Loss: {test_loss:.4f},Test acc: {test_acc:.4f}, Top-1: {test_top1:.2f}%, Top-5: {test_top5:.2f}% | \n"
-                   f"Epoch [{epoch + 1}/{epochs}] , Test Once Delay: {once_delay_time:.4f}s, Avarge Delay: {avarge_delay_time:.4f}s | "
-                   f"Train: {train_duration:.2f}s | Eval: {eval_duration:.2f}s | "
-                   f"Epoch total: {epoch_duration:.2f}s | "
-                   f"累积训练时间: {total_train_time/60:.2f}min"
+                   # f"Epoch [{epoch + 1}/{epochs}] , Test Once Delay: {once_delay_time:.4f}s, Avarge Delay: {avarge_delay_time:.4f}s | "
+                   f"Train: {train_duration:.2f}s | Eval: {eval_duration:.2f}s | \n"
+                   f"Epoch total: {epoch_duration:.2f}s | \n"
+                   f"累积训练时间: {total_train_time/60:.2f}min \n"
                    )
 
         if test_top1 > best_top1k:
@@ -333,11 +259,11 @@ def main():
             torch.save(model.state_dict(), save_path)
             logger.info(f"✅ New best Top-1 accuracy: {best_top1k:.2f}% — model saved!")
 
-        if once_delay_time < fast_delay_time:
-            fast_delay_time = once_delay_time
+        # if once_delay_time < fast_delay_time:
+        #     fast_delay_time = once_delay_time
         
-        if once_delay_time > slow_delay_time:
-            slow_delay_time = once_delay_time
+        # if once_delay_time > slow_delay_time:
+        #     slow_delay_time = once_delay_time
     # 绘制损失曲线
     plt.plot(test_acc_list)
     plt.xlabel("epoch")
