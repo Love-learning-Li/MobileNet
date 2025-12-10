@@ -8,6 +8,7 @@ import torch
 import torch.nn as nn
 import time
 from torch.utils.data import DataLoader
+from torch.cuda.amp import autocast, GradScaler # 导入 AMP 工具
 
 from configs.train_config import TrainingConfig, get_config, MODEL_REGISTRY, DATASET_REGISTRY
 
@@ -48,7 +49,7 @@ def compute_topk(outputs, targets, topk=(1, 5)):
     return res
 
 
-def train_epoch(model, loader, criterion, optimizer, device):
+def train_epoch(model, loader, criterion, optimizer, device, scaler): # 新增 scaler 参数
     model.train()
     total_loss = 0
     correct = 0
@@ -58,10 +59,16 @@ def train_epoch(model, loader, criterion, optimizer, device):
     for inputs, targets in loader:
         inputs, targets = inputs.to(device), targets.to(device)
         optimizer.zero_grad()
-        outputs = model(inputs)
-        loss = criterion(outputs, targets)
-        loss.backward()
-        optimizer.step()
+        
+        # 修改这里：使用 torch.amp.autocast('cuda')
+        with torch.amp.autocast('cuda'):
+            outputs = model(inputs)
+            loss = criterion(outputs, targets)
+        
+        # 使用 scaler 进行反向传播和优化
+        scaler.scale(loss).backward()
+        scaler.step(optimizer)
+        scaler.update()
 
         total_loss += loss.item()
         _, predicted = outputs.max(1)
@@ -130,13 +137,12 @@ def build_model(cfg: TrainingConfig) -> nn.Module:
         available = ", ".join(MODEL_REGISTRY)
         raise ValueError(f"Model '{cfg.model_name}' is not supported. Available: {available}")
     factory = MODEL_REGISTRY[cfg.model_name]
-        return factory()
-    # try:
-    #     return factory(image_size=cfg.dataset.image_size, **cfg.model_kwargs)
-    # except TypeError:
-    #     if cfg.model_kwargs:
-    #         raise
-    #     return factory(image_size=cfg.dataset.image_size)
+    try:
+        return factory(image_size=cfg.dataset.image_size, **cfg.model_kwargs)
+    except TypeError:
+        if cfg.model_kwargs:
+            raise
+        return factory(image_size=cfg.dataset.image_size)
 
 
 # ----------------------------
@@ -194,6 +200,9 @@ def main():
             nesterov=cfg.optimizer.nesterov
         )
 
+    # 初始化 GradScaler
+    scaler = GradScaler()
+
     # warmup学习率调度器
     scheduler = torch.optim.lr_scheduler.SequentialLR(
             optimizer,
@@ -214,15 +223,13 @@ def main():
     logger.info("开始训练...")
     logger.info("=" * 80)
     
-    
-
     # Training
     best_top1k = 0.0
-    # avarge_delay_time = 0.0
-    # fast_delay_time = 999.9
-    # slow_delay_time = 0.0
-    # once_delay_time = 0.0
-    # all_delay_time = 0.0
+    avarge_delay_time = 0.0
+    fast_delay_time = 999.9
+    slow_delay_time = 0.0
+    once_delay_time = 0.0
+    all_delay_time = 0.0
     train_acc_list = []
     test_acc_list = []
     total_train_time = 0.0
@@ -230,7 +237,8 @@ def main():
         epoch_start = time.time()
 
         train_start = time.time()
-        train_loss, train_acc, train_top1, train_top5 = train_epoch(model, trainloader, criterion, optimizer, device)
+        # 传入 scaler
+        train_loss, train_acc, train_top1, train_top5 = train_epoch(model, trainloader, criterion, optimizer, device, scaler)
         train_duration = time.time() - train_start
 
         eval_start = time.time()
@@ -245,14 +253,18 @@ def main():
         train_acc_list.append(train_acc)
         test_acc_list.append(test_acc)
 
-        logger.info(f"Epoch [{epoch + 1}/{epochs}] LR: {current_lr:.6f} | "
-                   f"Train Loss: {train_loss:.4f}, Train acc: {train_acc:.4f}, Top-1: {train_top1:.2f}%, Top-5: {train_top5:.2f}% | \n"
-                   f"Test Loss: {test_loss:.4f},Test acc: {test_acc:.4f}, Top-1: {test_top1:.2f}%, Top-5: {test_top5:.2f}% | \n"
-                   # f"Epoch [{epoch + 1}/{epochs}] , Test Once Delay: {once_delay_time:.4f}s, Avarge Delay: {avarge_delay_time:.4f}s | "
-                   f"Train: {train_duration:.2f}s | Eval: {eval_duration:.2f}s | \n"
-                   f"Epoch total: {epoch_duration:.2f}s | \n"
-                   f"累积训练时间: {total_train_time/60:.2f}min \n"
-                   )
+        logger.info(
+            f"\nEpoch [{epoch + 1}/{epochs}] | LR: {current_lr:.6f}\n"
+            f"----------------------------------------------------------------\n"
+            f"| Metric | {'Train':<10} | {'Test':<10} |\n"
+            f"|--------|------------|------------|\n"
+            f"| Loss   | {train_loss:<10.4f} | {test_loss:<10.4f} |\n"
+            f"| Acc    | {train_acc:<10.2f} | {test_acc:<10.2f} |\n"
+            f"| Top-1  | {train_top1:<10.2f} | {test_top1:<10.2f} |\n"
+            f"| Top-5  | {train_top5:<10.2f} | {test_top5:<10.2f} |\n"
+            f"----------------------------------------------------------------\n"
+            f"Time: Train {train_duration:.1f}s | Eval {eval_duration:.1f}s | Total {epoch_duration:.1f}s | Accum {total_train_time/60:.1f}m"
+        )
 
         if test_top1 > best_top1k:
             best_top1k = test_top1

@@ -33,7 +33,7 @@ class DatasetConfig:
     name: str
     data_path: Path
     batch_size: int = 128
-    num_workers: int = 8
+    num_workers: int = 12
     pin_memory: bool = True
     image_size: int = 32
 
@@ -78,7 +78,7 @@ CONFIG_REGISTRY: Dict[str, TrainingConfig] = {
             name="cifar100",
             data_path=PROJECT_ROOT / "data" ,
             batch_size=128,
-            num_workers=8,
+            num_workers=12,
             pin_memory=True,
             image_size=64,
         ),
