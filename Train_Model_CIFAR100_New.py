@@ -12,11 +12,6 @@ from torch.utils.data import DataLoader
 
 from Models.MobileViT.MobileViT import mobilevit_s, mobilevit_xs, mobilevit_xxs
 from configs.train_config import TrainingConfig, get_config
-# from Models.MobileNet.MobileNet4CIFAR100 import MobileNetV1
-# from Models.MobileNetV2.MobileNetV2 import MobileNetV2
-# from Models.MobileNetV3.MobileNetV3 import MobileNetV3
-# from Models.MobileNetV4.MobileNetV4 import MobileNetV4
-# from Models.MobileNet.MobileNet4ImageNet100 import MobileNetV1_4ImageNet100
 import time
 
 # ----------------------------
@@ -48,6 +43,7 @@ def get_cifar100_loaders(
     data_path="/root/LightWeightNN/MobileNet/data",
     num_workers=18,
     pin_memory=True,
+    image_size=32,
 ):
 
     data_path = Path(data_path)
@@ -56,16 +52,17 @@ def get_cifar100_loaders(
 
     # 训练数据增强
     transform_train = transforms.Compose([
-        # transforms.RandomResizedCrop(32, scale=(0.72, 1.0), ratio=(0.9, 1.1), padding=4),
-        transforms.RandomCrop(32, padding=4),
+        transforms.RandomResizedCrop(image_size, scale=(0.8, 1.0), ratio=(0.9, 1.1)),
         transforms.RandomHorizontalFlip(),
-        # transforms.RandomRotation(15),
+        transforms.AutoAugment(transforms.AutoAugmentPolicy.CIFAR10),
         transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
         transforms.ToTensor(),
-        transforms.Normalize(CIFAR100_TRAIN_MEAN, CIFAR100_TRAIN_STD) 
+        transforms.Normalize(CIFAR100_TRAIN_MEAN, CIFAR100_TRAIN_STD),
+        transforms.RandomErasing(p=0.25)
     ])
 
     transform_test = transforms.Compose([
+        transforms.Resize(image_size),
         transforms.ToTensor(),
         transforms.Normalize(CIFAR100_TRAIN_MEAN, CIFAR100_TRAIN_STD),
     ])
@@ -98,9 +95,6 @@ def get_cifar100_loaders(
     return train_loader, test_loader
 
 
-# ----------------------------
-# 2. Training & Evaluation
-# ----------------------------
 # ----------------------------
 # 2. Training & Evaluation
 # ----------------------------
@@ -202,6 +196,7 @@ def build_dataloaders(cfg: TrainingConfig) -> Tuple[DataLoader, DataLoader]:
         data_path=cfg.dataset.data_path,
         num_workers=cfg.dataset.num_workers,
         pin_memory=cfg.dataset.pin_memory,
+        image_size=cfg.dataset.image_size,
     )
 
 
@@ -211,11 +206,11 @@ def build_model(cfg: TrainingConfig) -> nn.Module:
         raise ValueError(f"Model '{cfg.model_name}' is not supported. Available: {available}")
     factory = MODEL_FACTORY[cfg.model_name]
     try:
-        return factory(**cfg.model_kwargs)
+        return factory(image_size=cfg.dataset.image_size, **cfg.model_kwargs)
     except TypeError:
         if cfg.model_kwargs:
             raise
-        return factory()
+        return factory(image_size=cfg.dataset.image_size)
 
 
 # ----------------------------
@@ -249,9 +244,6 @@ def main():
     logger.info(f"使用数据路径: {cfg.dataset.data_path}")
     trainloader, testloader = build_dataloaders(cfg)
 
-    # model = MobileNetV2(num_classes=100, width_mult=0.75).to(device)
-    # model = MobileNetV3(num_classes=100).to(device)
-    # model = MobileNetV4(num_classes=100).to(device).to(device)
     model = build_model(cfg).to(device)
     
     logger.info(f"模型结构:\n{model}")
@@ -261,13 +253,20 @@ def main():
     criterion = nn.CrossEntropyLoss(label_smoothing=cfg.label_smoothing)
     
     # 定义优化器 
-    optimizer = torch.optim.SGD(
-        model.parameters(), 
-        lr=lr, 
-        momentum=cfg.optimizer.momentum, 
-        weight_decay=cfg.optimizer.weight_decay,
-        nesterov=cfg.optimizer.nesterov
-    )
+    if cfg.optimizer.name == "adamw":
+        optimizer = torch.optim.AdamW(
+            model.parameters(),
+            lr=lr,
+            weight_decay=cfg.optimizer.weight_decay
+        )
+    else:
+        optimizer = torch.optim.SGD(
+            model.parameters(), 
+            lr=lr, 
+            momentum=cfg.optimizer.momentum, 
+            weight_decay=cfg.optimizer.weight_decay,
+            nesterov=cfg.optimizer.nesterov
+        )
 
     # warmup学习率调度器
     scheduler = torch.optim.lr_scheduler.SequentialLR(

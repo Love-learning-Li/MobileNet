@@ -2,11 +2,31 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Callable
 import copy
+
+# Import Models
+from Models.MobileViT.MobileViT import mobilevit_xxs, mobilevit_xs, mobilevit_s
+
+# Import Dataloaders
+from utils.dataloaders import get_cifar100_loaders
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
+# ==============================================================================
+# Model & Dataset Registries
+# ==============================================================================
+MODEL_REGISTRY = {
+    "mobilevit_xxs": mobilevit_xxs,
+    "mobilevit_xs": mobilevit_xs,
+    "mobilevit_s": mobilevit_s,
+    # Add new models here
+}
+
+DATASET_REGISTRY = {
+    "cifar100": get_cifar100_loaders,
+    # Add new datasets here
+}
 
 @dataclass
 class DatasetConfig:
@@ -15,13 +35,15 @@ class DatasetConfig:
     batch_size: int = 128
     num_workers: int = 8
     pin_memory: bool = True
+    image_size: int = 32
 
 
 @dataclass
 class OptimizerConfig:
-    lr: float
-    momentum: float
-    weight_decay: float
+    name: str = "sgd"
+    lr: float = 0.1
+    momentum: float = 0.9
+    weight_decay: float = 5e-4
     nesterov: bool = True
 
 
@@ -38,7 +60,7 @@ class TrainingConfig:
     epochs: int
     model_name: str
     model_kwargs: Dict[str, Any] = field(default_factory=dict)
-    optimizer: OptimizerConfig = field(default_factory=lambda: OptimizerConfig(0.1, 0.9, 5e-4))
+    optimizer: OptimizerConfig = field(default_factory=lambda: OptimizerConfig("sgd", 0.1, 0.9, 5e-4))
     scheduler: SchedulerConfig = field(default_factory=lambda: SchedulerConfig(5))
     label_smoothing: float = 0.1
     log_dir: Path = PROJECT_ROOT / "logs"
@@ -49,7 +71,8 @@ class TrainingConfig:
 
 
 CONFIG_REGISTRY: Dict[str, TrainingConfig] = {
-    "cifar100_mobilevit_xxs": TrainingConfig(
+    "cifar100_mobilevit_xxs":
+      TrainingConfig(
         experiment_name="cifar100_mobilevit_xxs",
         dataset=DatasetConfig(
             name="cifar100",
@@ -57,17 +80,19 @@ CONFIG_REGISTRY: Dict[str, TrainingConfig] = {
             batch_size=128,
             num_workers=8,
             pin_memory=True,
+            image_size=64,
         ),
-        epochs=50,
+        epochs=200,
         model_name="mobilevit_xxs",
         # model_kwargs={"num_classes": 100},
         optimizer=OptimizerConfig(
-            lr=0.1,
+            name="adamw",
+            lr=0.002,
             momentum=0.9,
-            weight_decay=5e-4,
+            weight_decay=0.05,
             nesterov=True,
         ),
-        scheduler=SchedulerConfig(warmup_epochs=5, start_factor=1e-3),
+        scheduler=SchedulerConfig(warmup_epochs=10, start_factor=1e-3),
         label_smoothing=0.1,
         weights_subdir=Path("Models/MobileViT/Pretrained"),
     )
