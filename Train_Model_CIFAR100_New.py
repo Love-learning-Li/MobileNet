@@ -45,8 +45,8 @@ def setup_logger(log_dir="logs"):
 # ----------------------------
 def get_cifar100_loaders(
     batch_size,
-    data_path="G:/0_Python/Pytorch_learning/MobileNet/data/cifar-10-batches-py",
-    num_workers=8,
+    data_path="/root/LightWeightNN/MobileNet/data",
+    num_workers=18,
     pin_memory=True,
 ):
 
@@ -70,9 +70,12 @@ def get_cifar100_loaders(
         transforms.Normalize(CIFAR100_TRAIN_MEAN, CIFAR100_TRAIN_STD),
     ])
 
-    train_dataset = torchvision.datasets.CIFAR100(root=str(data_path),
-                                                  train=True,
-                                                  download=True, transform=transform_train)
+    train_dataset = torchvision.datasets.CIFAR100(
+        root=str(data_path),
+        train=True,
+        download=False,
+        transform=transform_train,
+    )
     train_loader = DataLoader(
         train_dataset,
         batch_size=batch_size,
@@ -297,13 +300,22 @@ def main():
     all_delay_time = 0.0
     train_acc_list = []
     test_acc_list = []
+    total_train_time = 0.0
     for epoch in range(epochs):
+        epoch_start = time.time()
+
+        train_start = time.time()
         train_loss, train_acc, train_top1, train_top5 = train_epoch(model, trainloader, criterion, optimizer, device)
+        train_duration = time.time() - train_start
+
+        eval_start = time.time()
         test_loss, test_acc, test_top1, test_top5, once_delay_time = evaluate(model, testloader, criterion, device)
-        all_delay_time += once_delay_time
-        avarge_delay_time = all_delay_time / (epoch + 1)
+        eval_duration = time.time() - eval_start
+
         scheduler.step()
-        
+        epoch_duration = time.time() - epoch_start
+        total_train_time += epoch_duration
+
         current_lr = optimizer.param_groups[0]['lr']
         train_acc_list.append(train_acc)
         test_acc_list.append(test_acc)
@@ -311,7 +323,11 @@ def main():
         logger.info(f"Epoch [{epoch + 1}/{epochs}] LR: {current_lr:.6f} | "
                    f"Train Loss: {train_loss:.4f}, Train acc: {train_acc:.4f}, Top-1: {train_top1:.2f}%, Top-5: {train_top5:.2f}% | \n"
                    f"Test Loss: {test_loss:.4f},Test acc: {test_acc:.4f}, Top-1: {test_top1:.2f}%, Top-5: {test_top5:.2f}% | \n"
-                   f"Epoch [{epoch + 1}/{epochs}] , Test Once Delay: {once_delay_time:.4f}s, Avarge Delay: {avarge_delay_time:.4f}s | ")
+                   f"Epoch [{epoch + 1}/{epochs}] , Test Once Delay: {once_delay_time:.4f}s, Avarge Delay: {avarge_delay_time:.4f}s | "
+                   f"Train: {train_duration:.2f}s | Eval: {eval_duration:.2f}s | "
+                   f"Epoch total: {epoch_duration:.2f}s | "
+                   f"累积训练时间: {total_train_time/60:.2f}min"
+                   )
 
         if test_top1 > best_top1k:
             best_top1k = test_top1

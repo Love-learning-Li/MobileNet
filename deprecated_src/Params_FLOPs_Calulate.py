@@ -37,4 +37,15 @@ print(f"Params: {params / 1e6:.2f} M") # 输出为 Mega Params
 # Params: 3.50 M
 
 
+# Mobilevit_xxs:
+# MACs: 37.74 G
+# Params: 2.36 M
+
+# Mobilevit_xs:
+# MACs: 57.98 G
+# Params: 3.98 M
+
+# Mobilevit_s:
+# MACs: 106.89 G
+# Params: 7.90 M
 
