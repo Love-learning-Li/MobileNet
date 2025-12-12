@@ -12,3 +12,14 @@ wheels/
 data/
 *.tar.gz
 *.zip
+
+logs/
+*.log
+
+deprecated_src/
+*.py
+
+trainer/
+*.py
+
+*.ipynb
