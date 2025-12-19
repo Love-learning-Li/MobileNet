@@ -8,8 +8,10 @@ import copy
 # Import Models
 from Models.MobileViT.MobileViT import mobilevit_xxs, mobilevit_xs, mobilevit_s
 
-# Import Dataloaders
-from utils.dataloaders import get_cifar100_loaders
+# # Import Dataloaders
+# from utils.dataloaders import get_cifar100_loaders
+
+from utils import get_cifar100_loaders
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
